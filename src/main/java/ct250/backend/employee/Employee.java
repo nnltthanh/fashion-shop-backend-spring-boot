@@ -1,35 +1,25 @@
-package ct250.backend.customer;
+package ct250.backend.employee;
 
-import java.util.Date;
-
+import jakarta.persistence.*;
+import lombok.*;
 import org.springframework.stereotype.Component;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
-import jakarta.persistence.Temporal;
-import jakarta.persistence.TemporalType;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import java.util.Date;
 
 @Component
 @Entity
 @Data
-@Table(name = "customer")
 @AllArgsConstructor
 @NoArgsConstructor
-public class Customer {
+@Table(name = "employee")
+public class Employee {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(length = 20)
-    private String account;
+    private String username;
 
     @Column(length = 30)
     private String password;
@@ -46,7 +36,7 @@ public class Customer {
     @Column(length = 80)
     private String email;
 
-    @Column(name = "avatar_url")
+    @Column(name = "avatarURL")
     private String avatar;
 
     @Temporal(value = TemporalType.DATE)
@@ -59,4 +49,5 @@ public class Customer {
     @Column(name = "updated_at")
     @Temporal(value = TemporalType.TIMESTAMP)
     private Date updatedAt;
+    
 }

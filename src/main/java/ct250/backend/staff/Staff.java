@@ -2,6 +2,7 @@ package ct250.backend.staff;
 
 import org.springframework.stereotype.Component;
 
+import ct250.backend.employee.Employee;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -18,7 +19,7 @@ import lombok.NoArgsConstructor;
 @Table(name = "staff")
 @AllArgsConstructor
 @NoArgsConstructor
-public class Staff {
+public class Staff extends Employee {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
