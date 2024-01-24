@@ -6,8 +6,6 @@ import org.springframework.stereotype.Component;
 
 import java.util.Date;
 
-@Getter
-@Setter
 @Component
 @Entity
 @Data
@@ -51,4 +49,5 @@ public class Customer {
     @Column(name = "updated_at")
     @Temporal(value = TemporalType.TIMESTAMP)
     private Date updatedAt;
+  
 }

@@ -5,8 +5,6 @@ import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.stereotype.Component;
 
-@Setter
-@Getter
 @Component
 @Entity
 @Data
@@ -18,4 +16,5 @@ public class Staff extends Employee {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
 }

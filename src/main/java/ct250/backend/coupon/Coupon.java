@@ -1,19 +1,18 @@
 package ct250.backend.coupon;
 
-import jakarta.persistence.*;
-import lombok.*;
-import org.springframework.stereotype.Component;
-
 import java.util.Date;
 
-@Getter
-@Setter
+import org.springframework.stereotype.Component;
+
+import jakarta.persistence.*;
+import lombok*;
+
 @Component
 @Entity
 @Data
+@Table(name = "coupon")
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "coupon")
 public class Coupon {
 
     @Id
@@ -59,4 +58,5 @@ public class Coupon {
     @Column(name = "updated_at")
     @Temporal(value = TemporalType.TIMESTAMP)
     private Date updatedAt;
+
 }
