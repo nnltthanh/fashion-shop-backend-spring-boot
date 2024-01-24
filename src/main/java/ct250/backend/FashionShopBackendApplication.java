@@ -12,7 +12,7 @@ import lombok.extern.slf4j.Slf4j;
 public class FashionShopBackendApplication {
 
 	public static void main(String[] args) {
-		log.info("Server is running...");
+		log.info("Server of fashion shop is running...");
 		SpringApplication.run(FashionShopBackendApplication.class, args);
 	}
 
