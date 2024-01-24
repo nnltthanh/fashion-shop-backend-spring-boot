@@ -5,7 +5,7 @@ import java.util.Date;
 import org.springframework.stereotype.Component;
 
 import jakarta.persistence.*;
-import lombok*;
+import lombok.*;
 
 @Component
 @Entity
