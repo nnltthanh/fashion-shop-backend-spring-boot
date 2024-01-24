@@ -1,4 +1,4 @@
-package ct250.backend.user;
+package ct250.backend.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -10,14 +10,17 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import ct250.backend.model.User;
+import ct250.backend.service.UserService;
+
 @RestController
 @RequestMapping("/u")
 public class UserController {
     
 	@Autowired
     private UserService userService;
-   
-    @GetMapping({"/all", "/",""})
+
+    @GetMapping()
     public String getAllUser() {
         userService.findAllUser();
         String userList = "";
@@ -27,7 +30,7 @@ public class UserController {
         return "Call find all users function " + userList;
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/id={id}")
     public String getUserById(@PathVariable Long id) {
         if (userService.findUserById(id) == null) {
             return "Call find user by ID " + id + " function\nCan not found user has id " + id;
@@ -36,7 +39,7 @@ public class UserController {
     }
 
 
-    @DeleteMapping("{id}")
+    @DeleteMapping("/delete-id={id}")
     public String deleteUserById(@PathVariable Long id) {
         if (userService.deleteUser(id)) {
             return "Call delete user by ID " + id + " function\n" + "id " + id + " User has been deleted!";
@@ -46,7 +49,7 @@ public class UserController {
         return "Call delete user by ID " + id + " function\n" + "Can not delete user has id " + id;
     }
 
-    @PutMapping("{id}")
+    @PutMapping("/aa{id}")
     public String updateUserById(@PathVariable Long id, @RequestBody User user) {
         if (userService.updateUser(id, user) != null) {
             return "Call update user by ID " + id + " function\n" +  userService.updateUser(id, user).toString();
@@ -54,7 +57,7 @@ public class UserController {
         return "Call update user by ID " + id + " function\n" + "Wrong username!";
     }
     
-    @PostMapping("add")
+    @PostMapping("/add")
     public String addUser(@RequestBody User user){
         user = userService.addUser(user);
         if (user == null) {

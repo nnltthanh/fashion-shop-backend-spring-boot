@@ -1,4 +1,4 @@
-package ct250.backend.user;
+package ct250.backend.model;
 
 import org.springframework.stereotype.Component;
 

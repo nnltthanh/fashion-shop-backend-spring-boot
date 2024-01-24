@@ -1,4 +1,4 @@
-package ct250.backend.user;
+package ct250.backend.service;
 
 import java.util.ArrayList;
 import java.util.Optional;
@@ -6,6 +6,8 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import ct250.backend.model.User;
+import ct250.backend.repository.UserRepository;
 import jakarta.transaction.Transactional;
 
 @Service
