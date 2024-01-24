@@ -49,5 +49,5 @@ public class Employee {
     @Column(name = "updated_at")
     @Temporal(value = TemporalType.TIMESTAMP)
     private Date updatedAt;
-    
+
 }

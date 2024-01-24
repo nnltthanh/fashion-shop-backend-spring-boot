@@ -1,27 +1,17 @@
 package ct250.backend.customer;
 
-import java.util.Date;
-
+import jakarta.persistence.*;
+import lombok.*;
 import org.springframework.stereotype.Component;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
-import jakarta.persistence.Temporal;
-import jakarta.persistence.TemporalType;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import java.util.Date;
 
 @Component
 @Entity
 @Data
-@Table(name = "customer")
 @AllArgsConstructor
 @NoArgsConstructor
+@Table(name = "customer")
 public class Customer {
 
     @Id
@@ -59,4 +49,5 @@ public class Customer {
     @Column(name = "updated_at")
     @Temporal(value = TemporalType.TIMESTAMP)
     private Date updatedAt;
+  
 }

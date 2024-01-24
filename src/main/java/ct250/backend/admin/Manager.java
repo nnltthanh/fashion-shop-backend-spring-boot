@@ -16,5 +16,5 @@ public class Manager extends Employee {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    
+
 }
