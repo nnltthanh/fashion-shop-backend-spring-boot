@@ -1,0 +1,62 @@
+package ct250.backend.coupon;
+
+import jakarta.persistence.*;
+import lombok.*;
+import org.springframework.stereotype.Component;
+
+import java.util.Date;
+
+@Getter
+@Setter
+@Component
+@Entity
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Table(name = "coupon")
+public class Coupon {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @Column(length = 20)
+    private String code;
+
+    @Column
+    private String description;
+
+    @Column(length = 50)
+    private String type;
+
+    @Column
+    private double value;
+
+    @Column(name = "start_date")
+    @Temporal(value = TemporalType.DATE)
+    private Date startDate;
+
+    @Column(name = "end_date")
+    @Temporal(value = TemporalType.DATE)
+    private Date endDate;
+
+    @Column(name = "min_spend")
+    private double minSpend;
+
+    @Column(name = "capped_at")
+    private double cappedAt;
+
+    @Column(name = "uses_per_coupon")
+    private int usesPerCoupon;
+
+    @Column(length = 20)
+    private String status;
+
+    @Column(name = "created_at")
+    @Temporal(value = TemporalType.TIMESTAMP)
+    private Date createdAt;
+
+    @Column(name = "updated_at")
+    @Temporal(value = TemporalType.TIMESTAMP)
+    private Date updatedAt;
+}
