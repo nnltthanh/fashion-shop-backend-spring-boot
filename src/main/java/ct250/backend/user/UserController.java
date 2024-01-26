@@ -11,13 +11,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/u")
+@RequestMapping("/user")
 public class UserController {
-    
-	@Autowired
+
+    @Autowired
     private UserService userService;
-   
-    @GetMapping({"/all", "/",""})
+
+    @GetMapping({ "/", "" })
     public String getAllUser() {
         userService.findAllUser();
         String userList = "";
@@ -27,7 +27,7 @@ public class UserController {
         return "Call find all users function " + userList;
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/id={id}")
     public String getUserById(@PathVariable Long id) {
         if (userService.findUserById(id) == null) {
             return "Call find user by ID " + id + " function\nCan not found user has id " + id;
@@ -35,8 +35,7 @@ public class UserController {
         return "Call find user by ID " + id + " function\n" + userService.findUserById(id).toString();
     }
 
-
-    @DeleteMapping("{id}")
+    @DeleteMapping("/delete-id={id}")
     public String deleteUserById(@PathVariable Long id) {
         if (userService.deleteUser(id)) {
             return "Call delete user by ID " + id + " function\n" + "id " + id + " User has been deleted!";
@@ -46,20 +45,20 @@ public class UserController {
         return "Call delete user by ID " + id + " function\n" + "Can not delete user has id " + id;
     }
 
-    @PutMapping("{id}")
+    @PutMapping("/update-id={id}")
     public String updateUserById(@PathVariable Long id, @RequestBody User user) {
         if (userService.updateUser(id, user) != null) {
-            return "Call update user by ID " + id + " function\n" +  userService.updateUser(id, user).toString();
+            return "Call update user by ID " + id + " function\n" + userService.updateUser(id, user).toString();
         }
         return "Call update user by ID " + id + " function\n" + "Wrong username!";
     }
-    
-    @PostMapping("add")
-    public String addUser(@RequestBody User user){
+
+    @PostMapping("/add")
+    public String addUser(@RequestBody User user) {
         user = userService.addUser(user);
         if (user == null) {
             return "Call add user function \n" + "Username has been exist";
         }
-        return "Call add user function \n" +  user.toString();
+        return "Call add user function \n" + user.toString();
     }
 }

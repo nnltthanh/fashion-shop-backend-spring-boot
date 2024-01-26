@@ -10,7 +10,7 @@ import jakarta.transaction.Transactional;
 
 @Service
 public class UserService {
-    
+
     @Autowired
     UserRepository userRepository;
 
@@ -32,17 +32,17 @@ public class UserService {
         this.users = users;
     }
 
-    public User findUserById(Long id){
+    public User findUserById(Long id) {
         System.out.println("Call find user by ID function");
         Optional<User> user = userRepository.findById(id);
-        
+
         if (!user.isPresent()) {
             System.out.println("Can not found user has id " + id);
             return null;
-        }
-        else System.out.println(user.get());
+        } else
+            System.out.println(user.get());
 
-        return user.get(); 
+        return user.get();
     }
 
     public User findUserByUsername(String username) {
@@ -64,17 +64,12 @@ public class UserService {
 
     @Transactional
     public User addUser(User user) {
-        if (userRepository.findOneByUsername(user.getUsername()) != null) {
+        if (!userRepository.findOneByUsername(user.getUsername()).equals(Optional.empty())) {
+            System.out.println(userRepository.findOneByUsername(user.getUsername()));
             System.out.println("Username has been exist");
             return null;
         } else {
-            User newUser = userRepository.save(new User(user));
-            this.users.add(newUser);
-            System.out.println("Call add User function");
-            System.out.println(newUser);
-
-            userRepository.save(newUser);
-            return newUser;
+            return userRepository.save(user);
         }
     }
 
