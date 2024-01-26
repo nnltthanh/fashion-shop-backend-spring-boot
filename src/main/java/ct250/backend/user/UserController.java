@@ -1,4 +1,4 @@
-package ct250.backend.controller;
+package ct250.backend.user;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -10,17 +10,14 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import ct250.backend.model.User;
-import ct250.backend.service.UserService;
-
 @RestController
-@RequestMapping("/u")
+@RequestMapping("/user")
 public class UserController {
-    
-	@Autowired
+
+    @Autowired
     private UserService userService;
 
-    @GetMapping()
+    @GetMapping({ "/", "" })
     public String getAllUser() {
         userService.findAllUser();
         String userList = "";
@@ -38,7 +35,6 @@ public class UserController {
         return "Call find user by ID " + id + " function\n" + userService.findUserById(id).toString();
     }
 
-
     @DeleteMapping("/delete-id={id}")
     public String deleteUserById(@PathVariable Long id) {
         if (userService.deleteUser(id)) {
@@ -49,20 +45,20 @@ public class UserController {
         return "Call delete user by ID " + id + " function\n" + "Can not delete user has id " + id;
     }
 
-    @PutMapping("/aa{id}")
+    @PutMapping("/update-id={id}")
     public String updateUserById(@PathVariable Long id, @RequestBody User user) {
         if (userService.updateUser(id, user) != null) {
-            return "Call update user by ID " + id + " function\n" +  userService.updateUser(id, user).toString();
+            return "Call update user by ID " + id + " function\n" + userService.updateUser(id, user).toString();
         }
         return "Call update user by ID " + id + " function\n" + "Wrong username!";
     }
-    
+
     @PostMapping("/add")
-    public String addUser(@RequestBody User user){
+    public String addUser(@RequestBody User user) {
         user = userService.addUser(user);
         if (user == null) {
             return "Call add user function \n" + "Username has been exist";
         }
-        return "Call add user function \n" +  user.toString();
+        return "Call add user function \n" + user.toString();
     }
 }

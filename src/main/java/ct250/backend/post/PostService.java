@@ -1,15 +1,11 @@
-package ct250.backend.service;
+package ct250.backend.post;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import ct250.backend.model.Post;
 import jakarta.transaction.Transactional;
 
 import java.util.ArrayList;
-import java.util.List;
-
-import ct250.backend.repository.PostRepository;
 
 @Service
 public class PostService {
@@ -31,11 +27,9 @@ public class PostService {
         return posts;
     }
 
-    public void setPosts(ArrayList<Post> p) {
+    public void setPosts(ArrayList<Post> posts) {
         this.posts = posts;
     }
-
-
 
     public ArrayList<Post> findAllPosts() {
         System.out.println("Call find all posts function");
@@ -52,6 +46,7 @@ public class PostService {
 
     @Transactional
     public Post addPost(Post post) {
+        System.out.println(post);
         return postRepository.save(post);
     }
 
@@ -60,11 +55,12 @@ public class PostService {
         Post existingPost = findPostById(id);
         if (existingPost != null) {
             // Update fields based on your requirements
-            existingPost.setPostTitle(post.getPostTitle());
-            existingPost.setPostType(post.getPostType());
-            existingPost.setPostAuthor(post.getPostAuthor());
-            existingPost.setPostContent(post.getPostContent());
-            existingPost.setPostImagesURL(post.getPostImagesURL());
+            existingPost.setTitle(post.getTitle());
+            existingPost.setType(post.getType());
+            existingPost.setAuthor(post.getAuthor());
+            existingPost.setContent(post.getContent());
+            existingPost.setImagesURL(post.getImagesURL());
+            existingPost.setPublicAt(post.getPublicAt());
 
             postRepository.save(existingPost);
             return existingPost;
@@ -73,13 +69,13 @@ public class PostService {
     }
 
     @Transactional
-    public String deletePost(Long id) {
-        Post post = findPostById(id);
-        if (post != null) {
-            postRepository.delete(post);
-            return "Post with ID " + id + " deleted successfully!";
+    public boolean deletePost(Long id) {
+        Post resultFindPost = findPostById(id);
+        if (resultFindPost != null) {
+            postRepository.delete(resultFindPost);
+            return true;
         } else {
-            return "Post with ID " + id + " not found.";
+            return false;
         }
     }
 }

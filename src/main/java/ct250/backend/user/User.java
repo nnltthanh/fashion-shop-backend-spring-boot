@@ -1,4 +1,4 @@
-package ct250.backend.model;
+package ct250.backend.user;
 
 import org.springframework.stereotype.Component;
 
@@ -19,7 +19,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class User {
-    
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column

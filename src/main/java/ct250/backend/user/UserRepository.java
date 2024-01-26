@@ -1,14 +1,11 @@
-package ct250.backend.repository;
+package ct250.backend.user;
 
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import ct250.backend.model.User;
-
 @Repository
-public
-interface UserRepository extends JpaRepository<User, Long> {
+public interface UserRepository extends JpaRepository<User, Long> {
     Optional<User> findOneByUsername(String username);
 }
