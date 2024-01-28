@@ -51,5 +51,35 @@ public class ProductController {
         this.productService.deleteProductById(id);
         return new ResponseEntity<>("Deleted successfully", HttpStatus.OK);
     }
+    
+    @GetMapping(value = "/{productId}/details", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ArrayList<ProductDetail> getAllProductDetails(@PathVariable Long productId) {
+        return this.productService.getAllProductDetails(productId); 
+    }
 
+    @GetMapping(value = "/{productId}/details/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> getProductDetailById(@PathVariable Long id) {
+        ProductDetail productDetail = this.productService.findProductDetailById(id);
+        if (productDetail == null) {
+            return new ResponseEntity<>("This product detail is not exist", HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(productDetail, HttpStatus.OK);
+    }
+
+    @PostMapping(value = "/{productId}/details", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<ProductDetail> addProductDetail(@PathVariable Long productId, @RequestBody ProductDetail productDetail) {
+        this.productService.addProductDetail(productId, productDetail);
+        return new ResponseEntity<>(productDetail, HttpStatus.CREATED);
+    }
+
+    @DeleteMapping("/{productId}/details/{id}")
+    public ResponseEntity<String> deleteProductDetailById(@PathVariable Long id) {
+        ProductDetail productDetail = this.productService.findProductDetailById(id);
+        if (productDetail == null) {
+            return new ResponseEntity<>("Can not find product detail to delete", HttpStatus.NOT_FOUND);
+        }
+        
+        this.productService.deleteProductDetailById(id);
+        return new ResponseEntity<>("Deleted successfully", HttpStatus.OK);
+    }
 }

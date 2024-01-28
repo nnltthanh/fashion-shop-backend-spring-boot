@@ -2,7 +2,6 @@ package ct250.backend.product;
 
 import org.springframework.stereotype.Component;
 
-import ct250.backend.imagedata.ImageData;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -10,7 +9,6 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -39,6 +37,6 @@ public class ProductDetail {
 
     @ManyToOne
     @JoinColumn(name = "product_id")
-    private Product Product;
+    private Product product;                                
 
 }

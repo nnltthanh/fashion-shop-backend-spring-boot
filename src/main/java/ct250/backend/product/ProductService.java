@@ -10,6 +10,9 @@ public class ProductService {
     
     @Autowired
     private ProductRepository productRepository;
+    
+    @Autowired
+    private ProductDetailRepository productDetailRepository;
 
     void addProduct(Product product) {
         this.productRepository.save(product);
@@ -26,5 +29,27 @@ public class ProductService {
 
     void deleteProductById(Long id) {
         this.productRepository.deleteById(id);
+    }
+
+    void addProductDetail(Long productId, ProductDetail productDetail) {
+        Product product = this.findProductById(productId);
+
+        if (product != null) {
+            productDetail.setProduct(product);
+            this.productDetailRepository.save(productDetail);
+        }
+    }
+
+    ArrayList<ProductDetail> getAllProductDetails(Long productId) {
+        return (ArrayList<ProductDetail>) this.productDetailRepository.findByProduct_Id(productId);
+    }
+
+    ProductDetail findProductDetailById(Long id) {
+        return  this.productDetailRepository.findById(id).isPresent() ? 
+                this.productDetailRepository.findById(id).get() : null;
+    }
+
+    void deleteProductDetailById(Long id) {
+        this.productDetailRepository.deleteById(id);
     }
 }
