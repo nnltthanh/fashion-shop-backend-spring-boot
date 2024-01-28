@@ -18,4 +18,13 @@ public class ProductService {
     ArrayList<Product> getAllProducts() {
         return (ArrayList<Product>) this.productRepository.findAll();
     }
+
+    Product findProductById(Long id) {
+        return  this.productRepository.findById(id).isPresent() ? 
+                this.productRepository.findById(id).get() : null;
+    }
+
+    void deleteProductById(Long id) {
+        this.productRepository.deleteById(id);
+    }
 }
