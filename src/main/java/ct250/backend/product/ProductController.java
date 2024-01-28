@@ -35,7 +35,7 @@ public class ProductController {
         return new ResponseEntity<>(product, HttpStatus.OK);
     }
     
-    @PostMapping(value = "/", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = "/")
     public ResponseEntity<Product> addProduct(@RequestBody Product product) {
         this.productService.addProduct(product);
         return new ResponseEntity<>(product, HttpStatus.CREATED);
@@ -52,12 +52,12 @@ public class ProductController {
         return new ResponseEntity<>("Deleted successfully", HttpStatus.OK);
     }
     
-    @GetMapping(value = "/{productId}/details", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/{productId}/details")
     public ArrayList<ProductDetail> getAllProductDetails(@PathVariable Long productId) {
         return this.productService.getAllProductDetails(productId); 
     }
 
-    @GetMapping(value = "/{productId}/details/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/{productId}/details/{id}")
     public ResponseEntity<?> getProductDetailById(@PathVariable Long id) {
         ProductDetail productDetail = this.productService.findProductDetailById(id);
         if (productDetail == null) {
@@ -66,7 +66,7 @@ public class ProductController {
         return new ResponseEntity<>(productDetail, HttpStatus.OK);
     }
 
-    @PostMapping(value = "/{productId}/details", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = "/{productId}/details")
     public ResponseEntity<ProductDetail> addProductDetail(@PathVariable Long productId, @RequestBody ProductDetail productDetail) {
         this.productService.addProductDetail(productId, productDetail);
         return new ResponseEntity<>(productDetail, HttpStatus.CREATED);
