@@ -5,7 +5,10 @@ import java.util.ArrayList;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import jakarta.transaction.Transactional;
+
 @Service
+@Transactional
 public class ProductService {
     
     @Autowired
@@ -50,6 +53,7 @@ public class ProductService {
     }
 
     void deleteProductDetailById(Long id) {
+        System.out.println(this.findProductDetailById(id));
         this.productDetailRepository.deleteById(id);
     }
 }

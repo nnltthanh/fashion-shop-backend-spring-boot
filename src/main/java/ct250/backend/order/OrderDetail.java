@@ -1,8 +1,13 @@
 package ct250.backend.order;
 
+import java.math.BigDecimal;
+
 import org.springframework.stereotype.Component;
 
-import ct250.backend.product.Product;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import ct250.backend.cart.CartDetail;
+import ct250.backend.product.ProductDetail;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -32,14 +37,23 @@ public class OrderDetail {
     @Column
     private int quantity;
     
-    private long total;
+    @Column(precision = 10, scale = 2)
+    private BigDecimal total;
 
     @ManyToOne
     @JoinColumn(name = "order_id")
+    @JsonIgnore
     private Order order;
 
     @OneToOne
-    @JoinColumn(name = "product_id")
-    private Product product;
+    @JoinColumn(name = "product_detail_id")
+    private ProductDetail productDetail;
+
+    public OrderDetail(CartDetail cartDetail) {
+        this();
+        this.quantity = cartDetail.getQuantity();
+        this.total = cartDetail.getTotal();
+        this.productDetail = cartDetail.getProductDetail();
+    }
     
 }

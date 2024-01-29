@@ -6,8 +6,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-interface OrderRepository extends JpaRepository<Order, Long> {
+interface OrderDetailRepository extends JpaRepository<OrderDetail, Long> {
     
-    ArrayList<Order> findByCustomer_Id(Long customerId);
+    ArrayList<OrderDetail> findByOrder_Id(Long orderId);
 }
 

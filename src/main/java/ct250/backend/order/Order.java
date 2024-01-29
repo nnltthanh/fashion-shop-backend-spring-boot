@@ -1,12 +1,16 @@
 package ct250.backend.order;
 
-import java.sql.Date;
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import org.springframework.stereotype.Component;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import ct250.backend.coupon.Coupon;
 import ct250.backend.customer.Customer;
@@ -17,11 +21,15 @@ import ct250.backend.warehouse.Warehouse;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EntityListeners;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.OneToOne;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -46,32 +54,39 @@ public class Order {
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Asia/Ho_Chi_Minh")
     private Date createDate; 
 
-    private long total;
+    @Column(precision = 10, scale = 2)
+    private BigDecimal total;
     
-    private int status;
+    @Enumerated(EnumType.STRING)
+    private OrderStatus status;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "coupon_id")
-    private Coupon coupon;
+    private Coupon coupon; // check later
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "staff_id")
     private Staff staff;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "payment_id")
     private Payment payment;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "shipment_id")
     private Shipment shipment;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "warehouse_id")
     private Warehouse warehouse;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "customer_id")
+    @JsonIgnore
     private Customer customer;
+
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "order", orphanRemoval = true)
+    @JsonIgnore
+    private List<OrderDetail> orderDetails = new ArrayList<>();
 
 }

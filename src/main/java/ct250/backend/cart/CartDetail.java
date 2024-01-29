@@ -14,7 +14,6 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -44,7 +43,7 @@ public class CartDetail {
     @JsonIgnore
     private Cart cart;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "product_detail_id")
     private ProductDetail productDetail;
 

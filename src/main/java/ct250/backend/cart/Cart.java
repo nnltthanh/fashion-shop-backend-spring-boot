@@ -8,7 +8,6 @@ import org.springframework.stereotype.Component;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import ct250.backend.customer.Customer;
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -41,9 +40,8 @@ public class Cart {
     @JsonIgnore
     private Customer customer;
 
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "cart", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "cart", orphanRemoval = true)
     @JsonIgnore
-    // @JoinColumn(name = "cart_detail")
     private List<CartDetail> cartDetails = new ArrayList<>();
 
     public void addCartDetail(CartDetail cartDetail) {

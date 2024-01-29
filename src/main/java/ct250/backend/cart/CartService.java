@@ -70,5 +70,14 @@ public class CartService {
         return  this.cartRepository.findByCustomer_Id(customerId).isPresent() ?
                 this.cartRepository.findByCustomer_Id(customerId).get() : null;
     }
+
+    public CartDetail findCartDetailById(Long id) {
+        return  this.cartDetailRepository.findById(id).isPresent() ?
+                this.cartDetailRepository.findById(id).get() : null;
+    }
+
+    public void deleteCartDetail(Long id) {
+        this.cartDetailRepository.deleteById(id);
+    }
     
 }

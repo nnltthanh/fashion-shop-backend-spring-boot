@@ -1,21 +1,66 @@
 package ct250.backend.order;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import ct250.backend.cart.CartService;
+import ct250.backend.customer.Customer;
+import ct250.backend.customer.CustomerService;
+import jakarta.transaction.Transactional;
+
 @Service
+@Transactional
 public class OrderService {
     
     @Autowired
-    private OrderRepository OrderRepository;
+    private OrderRepository orderRepository;
 
-    void addOrder(Order order) {
-        this.OrderRepository.save(order);
+    @Autowired
+    private OrderDetailRepository orderDetailRepository;
+
+    @Autowired
+    private CustomerService customerService; 
+
+    @Autowired
+    private CartService cartService; 
+
+    void addOrder(Long customerId, Order order) {
+        Customer customer = this.customerService.findCustomerById(customerId);
+        order.setStatus(order.getStatus());
+        order.setCustomer(customer);
+        
+        this.orderRepository.save(order);
     }
 
-    ArrayList<Order> getAllOrders() {
-        return (ArrayList<Order>) this.OrderRepository.findAll();
+    ArrayList<Order> findAllOrders(Long customerId) {
+        return (ArrayList<Order>) this.orderRepository.findByCustomer_Id(customerId);
     }
+
+    Order findOrderById(Long id) {
+        return  this.orderRepository.findById(id).isPresent() ? 
+                this.orderRepository.findById(id).get() : null;
+    }
+
+    void cancelOrder(Long orderId) {
+        this.orderRepository.deleteById(orderId);
+    }
+
+    ArrayList<OrderDetail> addOrderDetailsToOrder(Long orderId, Long[] cartDetailsIdList) {
+        Arrays.stream(cartDetailsIdList).forEach(id -> {
+            OrderDetail orderDetail = new OrderDetail(this.cartService.findCartDetailById(id));
+            orderDetail.setOrder(this.findOrderById(orderId));
+            this.orderDetailRepository.save(orderDetail);
+            this.cartService.deleteCartDetail(id);
+        });
+
+        return this.findAllOrderDetailsByOrder(orderId);
+    }
+
+    ArrayList<OrderDetail> findAllOrderDetailsByOrder(Long orderId) {
+        return (ArrayList<OrderDetail>) this.orderDetailRepository.findByOrder_Id(orderId);
+    }
+
 }

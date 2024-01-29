@@ -27,8 +27,8 @@ public enum ProductMaterial {
     private static final Map<String, ProductMaterial> stringToEnum = new HashMap<>();
 
     static {
-        for (ProductMaterial productType : values()) {
-            stringToEnum.put(productType.name(), productType);
+        for (ProductMaterial productMaterial : values()) {
+            stringToEnum.put(productMaterial.name(), productMaterial);
         }
     }
 
