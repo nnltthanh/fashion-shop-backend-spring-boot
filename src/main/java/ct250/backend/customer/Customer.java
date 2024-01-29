@@ -2,7 +2,12 @@ package ct250.backend.customer;
 
 import jakarta.persistence.*;
 import lombok.*;
+
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import org.springframework.stereotype.Component;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 import java.util.Date;
 
@@ -12,6 +17,7 @@ import java.util.Date;
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "customer")
+@EntityListeners(AuditingEntityListener.class)
 public class Customer {
 
     @Id
@@ -40,10 +46,13 @@ public class Customer {
     private String avatar;
 
     @Temporal(value = TemporalType.DATE)
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private Date dob;
 
     @Column(name = "created_at")
     @Temporal(value = TemporalType.TIMESTAMP)
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Asia/Ho_Chi_Minh")
+    @CreatedDate
     private Date createdAt;
 
     @Column(name = "updated_at")

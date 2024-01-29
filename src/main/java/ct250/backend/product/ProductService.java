@@ -22,7 +22,7 @@ public class ProductService {
         return (ArrayList<Product>) this.productRepository.findAll();
     }
 
-    Product findProductById(Long id) {
+    public Product findProductById(Long id) {
         return  this.productRepository.findById(id).isPresent() ? 
                 this.productRepository.findById(id).get() : null;
     }
@@ -31,7 +31,7 @@ public class ProductService {
         this.productRepository.deleteById(id);
     }
 
-    void addProductDetail(Long productId, ProductDetail productDetail) {
+    public void addProductDetail(Long productId, ProductDetail productDetail) {
         Product product = this.findProductById(productId);
 
         if (product != null) {
@@ -44,7 +44,7 @@ public class ProductService {
         return (ArrayList<ProductDetail>) this.productDetailRepository.findByProduct_Id(productId);
     }
 
-    ProductDetail findProductDetailById(Long id) {
+    public ProductDetail findProductDetailById(Long id) {
         return  this.productDetailRepository.findById(id).isPresent() ? 
                 this.productDetailRepository.findById(id).get() : null;
     }

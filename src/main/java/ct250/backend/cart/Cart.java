@@ -1,14 +1,22 @@
 package ct250.backend.cart;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.stereotype.Component;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import ct250.backend.customer.Customer;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
@@ -30,6 +38,17 @@ public class Cart {
 
     @OneToOne
     @JoinColumn(name = "customer_id")
+    @JsonIgnore
     private Customer customer;
 
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "cart", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnore
+    // @JoinColumn(name = "cart_detail")
+    private List<CartDetail> cartDetails = new ArrayList<>();
+
+    public void addCartDetail(CartDetail cartDetail) {
+        cartDetails.add(cartDetail);
+        cartDetail.setCart(this);
+    }
+    
 }

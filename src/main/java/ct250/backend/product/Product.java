@@ -5,9 +5,10 @@ import java.math.BigDecimal;
 import org.springframework.stereotype.Component;
 
 import ct250.backend.imagedata.ImageData;
-import jakarta.annotation.Nullable;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -36,6 +37,12 @@ public class Product {
 
     @Column(precision = 10, scale = 2)
     private BigDecimal price;
+
+    @Enumerated(EnumType.STRING)
+    private ProductType type;
+
+    @Enumerated(EnumType.STRING)
+    private ProductMaterial material;
 
     @ManyToOne
     @JoinColumn(name = "imagedata_id")

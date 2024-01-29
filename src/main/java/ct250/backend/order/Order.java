@@ -3,7 +3,10 @@ package ct250.backend.order;
 import java.sql.Date;
 
 import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import org.springframework.stereotype.Component;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 import ct250.backend.coupon.Coupon;
 import ct250.backend.customer.Customer;
@@ -13,6 +16,7 @@ import ct250.backend.staff.Staff;
 import ct250.backend.warehouse.Warehouse;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EntityListeners;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -29,6 +33,7 @@ import lombok.NoArgsConstructor;
 @Table(name = "customer_order")
 @AllArgsConstructor
 @NoArgsConstructor
+@EntityListeners(AuditingEntityListener.class)
 public class Order {
 
     @Id
@@ -38,6 +43,7 @@ public class Order {
     
     @Column
     @CreatedDate
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Asia/Ho_Chi_Minh")
     private Date createDate; 
 
     private long total;

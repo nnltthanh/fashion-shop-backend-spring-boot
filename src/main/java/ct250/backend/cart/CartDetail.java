@@ -1,8 +1,12 @@
 package ct250.backend.cart;
 
+import java.math.BigDecimal;
+
 import org.springframework.stereotype.Component;
 
-import ct250.backend.product.Product;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import ct250.backend.product.ProductDetail;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -32,14 +36,16 @@ public class CartDetail {
     @Column
     private int quantity;
     
-    private long total;
+    @Column(precision = 10, scale = 2)
+    private BigDecimal total;
 
     @ManyToOne
     @JoinColumn(name = "cart_id")
+    @JsonIgnore
     private Cart cart;
 
     @OneToOne
-    @JoinColumn(name = "product_id")
-    private Product product;
+    @JoinColumn(name = "product_detail_id")
+    private ProductDetail productDetail;
 
 }
