@@ -9,12 +9,13 @@ import org.springframework.stereotype.Service;
 import ct250.backend.cart.CartService;
 import ct250.backend.customer.Customer;
 import ct250.backend.customer.CustomerService;
+import ct250.backend.product.ProductService;
 import jakarta.transaction.Transactional;
 
 @Service
 @Transactional
 public class OrderService {
-    
+
     @Autowired
     private OrderRepository orderRepository;
 
@@ -22,16 +23,19 @@ public class OrderService {
     private OrderDetailRepository orderDetailRepository;
 
     @Autowired
-    private CustomerService customerService; 
+    private CustomerService customerService;
 
     @Autowired
-    private CartService cartService; 
+    private CartService cartService;
+
+    @Autowired
+    private ProductService productService;
 
     void addOrder(Long customerId, Order order) {
         Customer customer = this.customerService.findCustomerById(customerId);
         order.setStatus(order.getStatus());
         order.setCustomer(customer);
-        
+
         this.orderRepository.save(order);
     }
 
@@ -40,8 +44,7 @@ public class OrderService {
     }
 
     Order findOrderById(Long id) {
-        return  this.orderRepository.findById(id).isPresent() ? 
-                this.orderRepository.findById(id).get() : null;
+        return this.orderRepository.findById(id).isPresent() ? this.orderRepository.findById(id).get() : null;
     }
 
     void cancelOrder(Long orderId) {
@@ -49,11 +52,12 @@ public class OrderService {
     }
 
     ArrayList<OrderDetail> addOrderDetailsToOrder(Long orderId, Long[] cartDetailsIdList) {
+
         Arrays.stream(cartDetailsIdList).forEach(id -> {
             OrderDetail orderDetail = new OrderDetail(this.cartService.findCartDetailById(id));
             orderDetail.setOrder(this.findOrderById(orderId));
-            this.orderDetailRepository.save(orderDetail);
             this.cartService.deleteCartDetail(id);
+            this.orderDetailRepository.save(orderDetail);
         });
 
         return this.findAllOrderDetailsByOrder(orderId);

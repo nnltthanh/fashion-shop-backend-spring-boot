@@ -43,6 +43,10 @@ public class ProductService {
         }
     }
 
+    public ProductDetail updateProductDetail(ProductDetail productDetail) {
+        return this.productDetailRepository.save(productDetail);
+    }
+
     ArrayList<ProductDetail> getAllProductDetails(Long productId) {
         return (ArrayList<ProductDetail>) this.productDetailRepository.findByProduct_Id(productId);
     }

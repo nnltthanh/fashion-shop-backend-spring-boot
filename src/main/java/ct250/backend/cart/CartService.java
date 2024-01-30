@@ -41,23 +41,21 @@ public class CartService {
         int remainingQuantity = productDetail.getQuantity() - cartDetail.getQuantity();
     
         if (remainingQuantity >= 0) {
-            productDetail.setQuantity(remainingQuantity);
             this.productService.addProductDetail(productDetail.getProduct().getId(), productDetail);
     
             BigDecimal total = BigDecimal.valueOf(cartDetail.getQuantity())
                                 .multiply(productDetail.getProduct().getPrice());
             
             cartDetail.setProductDetail(productDetail);
-            cartDetail.setQuantity(cartDetail.getQuantity());
             cartDetail.setTotal(total);
     
             cart.addCartDetail(cartDetail);
     
             this.cartRepository.save(cart);
-    
+            System.out.println("new");
             return this.cartDetailRepository.save(cartDetail);
-        }
-
+        } 
+        
         return null;
     }
     
