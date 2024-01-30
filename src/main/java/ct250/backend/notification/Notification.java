@@ -3,6 +3,8 @@ package ct250.backend.notification;
 import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.stereotype.Component;
 
+import ct250.backend.customer.Customer;
+import ct250.backend.order.Order;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -37,11 +39,21 @@ public class Notification {
     @Column(name = "status")
     private Integer status;
 
+    @ManyToOne
+    @JoinColumn(name = "customer_id")
+    private Customer customer;
+
+    @ManyToOne
+    @JoinColumn(name = "order_id")
+    private Order order;
+
     public Notification(Notification notification) {
         this.id = notification.getId();
         this.title = notification.getTitle();
         this.content = notification.getContent();
         this.dateTime = notification.getDateTime();
         this.status = notification.getStatus();
+        this.customer = notification.getCustomer();
+        this.order = notification.getOrder();
     }
 }
