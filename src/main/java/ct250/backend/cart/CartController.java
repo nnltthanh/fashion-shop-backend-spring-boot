@@ -1,6 +1,6 @@
 package ct250.backend.cart;
 
-import java.util.List;
+import java.util.ArrayList;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -27,23 +27,29 @@ public class CartController {
         if (cartDetailDB == null) {
             return new ResponseEntity<>("This product does not have enough quantity", HttpStatus.BAD_REQUEST);
         }
-        return new ResponseEntity<>(this.cartService.addProductDetailToCart(customerId, productDetailId, cartDetail),
-                HttpStatus.CREATED);
+        return new ResponseEntity<>(cartDetailDB, HttpStatus.CREATED);
     }
 
     @GetMapping
-    public List<CartDetail> getCart(@PathVariable Long customerId) {
-        return this.cartService.getAllCartDetails(customerId);
+    public ResponseEntity<?> getCart(@PathVariable Long customerId) {
+        ArrayList<CartDetail> cartDetails = this.cartService.getAllCartDetails(customerId);
+        if (cartDetails.size() > 0) {
+            return new ResponseEntity<>(cartDetails, HttpStatus.OK);
+        }
+        return new ResponseEntity<>("This cart is empty", HttpStatus.OK);
     }
 
     @GetMapping("/{cartDetailId}")
-    public CartDetail getCartDetail(@PathVariable Long cartDetailId) {
-        return this.cartService.findCartDetailById(cartDetailId);
+    public ResponseEntity<?> getCartDetail(@PathVariable Long cartDetailId) {
+        CartDetail cartDetail = this.cartService.findCartDetailById(cartDetailId);
+        if (cartDetail != null) {
+            return new ResponseEntity<>(cartDetail, HttpStatus.OK);
+        }
+        return new ResponseEntity<>("This cart detail is not exist", HttpStatus.NOT_FOUND);
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteCartDetail(@PathVariable(value = "customerId") Long customerId, @PathVariable(value = "id") Long id) {
-        System.out.println(customerId + " " + id);
         this.cartService.deleteCartDetail(id);
         return new ResponseEntity<>(this.cartService.getAllCartDetails(customerId), HttpStatus.OK);
     }

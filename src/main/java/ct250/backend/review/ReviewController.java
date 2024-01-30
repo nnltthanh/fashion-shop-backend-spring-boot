@@ -21,8 +21,9 @@ public class ReviewController {
     ReviewService ReviewService;
 
     @GetMapping(value = {"/", ""})
-    public ArrayList<Review> getAllReviewsByProductId(@PathVariable Long productId) {
-        return this.ReviewService.getAllReviewsByProductId(productId);
+    public ResponseEntity<ArrayList<Review>> getAllReviewsByProductId(@PathVariable Long productId) {
+        ArrayList<Review> reviews = this.ReviewService.getAllReviewsByProductId(productId);
+        return new ResponseEntity<>(reviews, HttpStatus.OK);
     }
 
     @GetMapping("/{id}")

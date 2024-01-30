@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import ct250.backend.customer.Customer;
 import ct250.backend.order.OrderDetail;
 import ct250.backend.order.OrderService;
 import ct250.backend.product.ProductService;
@@ -24,6 +25,8 @@ public class ReviewService {
     void addReview(Long orderDetailId, Review review) {
         OrderDetail orderDetail = this.orderService.findOrderDetailById(orderDetailId);
         review.setOrderDetail(orderDetail);
+        Customer customer = orderDetail.getOrder().getCustomer();
+        review.setCustomer(customer);
         this.reviewRepository.save(review);
     }
 

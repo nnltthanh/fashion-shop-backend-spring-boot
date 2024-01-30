@@ -37,10 +37,24 @@ public class CartService {
     
         ProductDetail productDetail = this.productService
                                 .findProductDetailById(productDetailId);
+
+        // handle for exist cart detail                                
+        CartDetail cartDetailDB = this.cartDetailRepository.findByProductDetailId(productDetailId).orElse(null);
     
-        int remainingQuantity = productDetail.getQuantity() - cartDetail.getQuantity();
+        int newQuantity = cartDetail.getQuantity();
+
+        if (cartDetailDB != null) {
+            newQuantity += cartDetailDB.getQuantity();
+        }
+
+        int remainingQuantity = productDetail.getQuantity() - newQuantity;
     
         if (remainingQuantity >= 0) {
+            cartDetail.setQuantity(newQuantity);
+            if (cartDetailDB != null) {
+                this.cartDetailRepository.delete(cartDetailDB);
+            }
+
             this.productService.addProductDetail(productDetail.getProduct().getId(), productDetail);
     
             BigDecimal total = BigDecimal.valueOf(cartDetail.getQuantity())
@@ -52,7 +66,7 @@ public class CartService {
             cart.addCartDetail(cartDetail);
     
             this.cartRepository.save(cart);
-            System.out.println("new");
+
             return this.cartDetailRepository.save(cartDetail);
         } 
         
