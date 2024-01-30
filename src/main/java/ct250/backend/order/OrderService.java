@@ -67,4 +67,9 @@ public class OrderService {
         return (ArrayList<OrderDetail>) this.orderDetailRepository.findByOrder_Id(orderId);
     }
 
+    public OrderDetail findOrderDetailById(Long id) {
+        return this.orderDetailRepository.findById(id).isPresent() ? 
+                this.orderDetailRepository.findById(id).get() : null;
+    }
+
 }
