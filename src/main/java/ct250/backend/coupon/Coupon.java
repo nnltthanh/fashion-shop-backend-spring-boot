@@ -1,11 +1,14 @@
 package ct250.backend.coupon;
 
-import java.util.Date;
-
+import ct250.backend.employee.Employee;
+import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.springframework.stereotype.Component;
 
-import jakarta.persistence.*;
-import lombok.*;
+import java.math.BigDecimal;
+import java.util.Date;
 
 @Component
 @Entity
@@ -19,17 +22,21 @@ public class Coupon {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @OneToOne
+    @JoinColumn(name = "employee_id", referencedColumnName = "id")
+    private Employee employee;
+
     @Column(length = 20)
     private String code;
 
-    @Column
+    @Column(columnDefinition = "TEXT")
     private String description;
 
     @Column(length = 50)
     private String type;
 
-    @Column
-    private double value;
+    @Column(precision = 10, scale = 2)
+    private BigDecimal value;
 
     @Column(name = "start_date")
     @Temporal(value = TemporalType.DATE)
@@ -39,11 +46,12 @@ public class Coupon {
     @Temporal(value = TemporalType.DATE)
     private Date endDate;
 
-    @Column(name = "min_spend")
-    private double minSpend;
+    @Column(name = "min_spend", precision = 10, scale = 2)
+    private BigDecimal minSpend;
 
-    @Column(name = "capped_at")
-    private double cappedAt;
+    // cappedAt > minSpend
+    @Column(name = "capped_at", precision = 10, scale = 2)
+    private BigDecimal cappedAt;
 
     @Column(name = "uses_per_coupon")
     private int usesPerCoupon;

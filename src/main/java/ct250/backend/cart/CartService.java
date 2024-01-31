@@ -32,7 +32,7 @@ public class CartService {
     
         if (cart == null) {
             cart = new Cart();
-            cart.setCustomer(this.customerService.findCustomerById(customerId));
+            cart.setCustomer(this.customerService.findById(customerId));
         }
     
         ProductDetail productDetail = this.productService

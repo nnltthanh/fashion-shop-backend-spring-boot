@@ -1,27 +1,32 @@
 package ct250.backend.customer;
 
-import java.util.ArrayList;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+
 @Service
 public class CustomerService {
-    
+
     @Autowired
     private CustomerRepository customerRepository;
 
-    void addCustomer(Customer customer) {
-        this.customerRepository.save(customer);
+    public ArrayList<Customer> findAll() {
+        return (ArrayList<Customer>) customerRepository.findAll();
     }
 
-    ArrayList<Customer> getAllCustomers() {
-        return (ArrayList<Customer>) this.customerRepository.findAll();
+    public Customer findById(Long id) {
+        return customerRepository.findById(id).orElse(null);
     }
 
-    public Customer findCustomerById(Long id) {
-        return  this.customerRepository.findById(id).isPresent() ? 
-                this.customerRepository.findById(id).get() : null;
+    public void add(Customer customer) {
+        if (this.findById(customer.getId()) == null) {
+            this.customerRepository.save(customer);
+        }
     }
 
+
+    public void deleteById(Long id) {
+        this.customerRepository.deleteById(id);
+    }
 }

@@ -32,7 +32,7 @@ public class OrderService {
     private ProductService productService;
 
     void addOrder(Long customerId, Order order) {
-        Customer customer = this.customerService.findCustomerById(customerId);
+        Customer customer = this.customerService.findById(customerId);
         order.setStatus(order.getStatus());
         order.setCustomer(customer);
 

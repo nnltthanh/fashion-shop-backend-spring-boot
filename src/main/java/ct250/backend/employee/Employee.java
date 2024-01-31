@@ -1,5 +1,6 @@
 package ct250.backend.employee;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.stereotype.Component;
@@ -12,6 +13,9 @@ import java.util.Date;
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "employee")
+@Inheritance(strategy = InheritanceType.JOINED)
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+
 public class Employee {
 
     @Id
@@ -24,10 +28,10 @@ public class Employee {
     @Column(length = 30)
     private String password;
 
-    @Column(length = 50)
+    @Column
     private String name;
 
-    @Column
+    @Column(columnDefinition = "TEXT")
     private String address;
 
     @Column(length = 12)
@@ -36,7 +40,7 @@ public class Employee {
     @Column(length = 80)
     private String email;
 
-    @Column(name = "avatarURL")
+    @Column(columnDefinition = "TEXT")
     private String avatar;
 
     @Temporal(value = TemporalType.DATE)

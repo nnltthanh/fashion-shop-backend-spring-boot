@@ -40,10 +40,10 @@ public class Customer {
     @Column(length = 30)
     private String password;
 
-    @Column(length = 50)
+    @Column
     private String name;
 
-    @Column
+    @Column(columnDefinition = "TEXT")
     private String address;
 
     @Column(length = 12)
@@ -52,7 +52,7 @@ public class Customer {
     @Column(length = 80)
     private String email;
 
-    @Column(name = "avatar_url")
+    @Column(columnDefinition = "TEXT")
     private String avatar;
 
     @Temporal(value = TemporalType.DATE)
