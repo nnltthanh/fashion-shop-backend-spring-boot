@@ -11,40 +11,17 @@ public class ShipmentService {
     @Autowired
     private ShipmentRepository shipmentRepository;
 
-    private ArrayList<Shipment> shipments;
-
-    public ShipmentService(ArrayList<Shipment> shipments) {
-        this.shipments = shipments;
-    }
-
-    public ShipmentService() {
-        this.shipments = new ArrayList<>();
-    }
-
-    public ArrayList<Shipment> getShipments() {
-        return shipments;
-    }
-
-    public void setShipments(ArrayList<Shipment> shipments) {
-        this.shipments = shipments;
-    }
-
     public ArrayList<Shipment> findAllShipments() {
-        System.out.println("Call find all shipments function");
-        this.shipments = (ArrayList<Shipment>) shipmentRepository.findAll();
-        for (Shipment a : shipments) {
-            System.out.println(a.toString());
-        }
-        return shipments;
+        return (ArrayList<Shipment>) this.shipmentRepository.findAll();
     }
 
     public Shipment findShipmentById(Long id) {
-        return shipmentRepository.findById(id).orElse(null);
+        return this.shipmentRepository.findById(id).orElse(null);
     }
 
     @Transactional
     public Shipment addShipment(Shipment shipment) {
-        return shipmentRepository.save(shipment);
+        return this.shipmentRepository.save(shipment);
     }
 
     @Transactional
@@ -56,7 +33,7 @@ public class ShipmentService {
             existingShipment.setStatus(shipment.getStatus());
             existingShipment.setMethod(shipment.getMethod());
 
-            shipmentRepository.save(existingShipment);
+            this.shipmentRepository.save(existingShipment);
             return existingShipment;
         }
         return null;
@@ -66,7 +43,7 @@ public class ShipmentService {
     public boolean deleteShipment(Long id) {
         Shipment resultFindShipment = findShipmentById(id);
         if (resultFindShipment != null) {
-            shipmentRepository.delete(resultFindShipment);
+            this.shipmentRepository.delete(resultFindShipment);
             return true;
         } else {
             return false;

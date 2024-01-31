@@ -1,11 +1,9 @@
 package ct250.backend.warehouse;
 
 import java.util.ArrayList;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import jakarta.transaction.Transactional;
 
 @Service
@@ -14,46 +12,17 @@ public class WarehouseService {
     @Autowired
     private WarehouseRepository warehouseRepository;
 
-    private ArrayList<Warehouse> warehouses;
-
-    public WarehouseService(ArrayList<Warehouse> warehouses) {
-        this.warehouses = warehouses;
-    }
-
-    public WarehouseService() {
-        this.warehouses = new ArrayList<>();
-    }
-
-    public ArrayList<Warehouse> getWarehouses() {
-        return warehouses;
-    }
-
-    public void setWarehouses(ArrayList<Warehouse> warehouses) {
-        this.warehouses = warehouses;
-    }
-
     public ArrayList<Warehouse> findAllWarehouses() {
-        System.out.println("Call find all warehouses function");
-        this.warehouses = (ArrayList<Warehouse>) warehouseRepository.findAll();
-        for (Warehouse warehouse : warehouses) {
-            System.out.println(warehouse.toString());
-        }
-        return warehouses;
+        return (ArrayList<Warehouse>) this.warehouseRepository.findAll();
     }
 
     public Warehouse findWarehouseById(Long id) {
-        return warehouseRepository.findById(id).orElse(null);
+        return this.warehouseRepository.findById(id).orElse(null);
     }
 
     @Transactional
     public Warehouse addWarehouse(Warehouse warehouse) {
-        if (!(warehouseRepository.findOneByPhone(warehouse.getPhone()).equals(Optional.empty())
-                && warehouseRepository.findOneByName(warehouse.getName()).equals(Optional.empty()))) {
-            System.out.println("This phone number or warehouse name already belongs to a warehouse");
-            return null;
-        } else {
-            return warehouseRepository.save(warehouse);
-        }
+        return this.warehouseRepository.save(warehouse);
     }
 
     @Transactional
@@ -65,7 +34,7 @@ public class WarehouseService {
             existingWarehouse.setAddress(warehouse.getAddress());
             existingWarehouse.setPhone(warehouse.getPhone());
 
-            warehouseRepository.save(existingWarehouse);
+            this.warehouseRepository.save(existingWarehouse);
             return existingWarehouse;
         }
         return null;
@@ -75,7 +44,7 @@ public class WarehouseService {
     public boolean deleteWarehouse(Long id) {
         Warehouse resultFindWarehouse = findWarehouseById(id);
         if (resultFindWarehouse != null) {
-            warehouseRepository.delete(resultFindWarehouse);
+            this.warehouseRepository.delete(resultFindWarehouse);
             return true;
         } else {
             return false;

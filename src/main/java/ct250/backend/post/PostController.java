@@ -1,6 +1,10 @@
 package ct250.backend.post;
 
+import java.util.ArrayList;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -18,42 +22,40 @@ public class PostController {
     private PostService postService;
 
     @GetMapping({ "/", "" })
-    public String getAllPost() {
-        postService.findAllPosts();
-        String postList = "";
-        for (Post post : postService.getPosts()) {
-            postList += "\n" + post.toString();
-        }
-        return "Call find all posts function " + postList;
+    public ArrayList<Post> getAllPost() {
+        return this.postService.findAllPosts();
     }
 
     @GetMapping("/{id}")
-    public String getPostById(@PathVariable Long id) {
-        if (postService.findPostById(id) == null) {
-            return "Call find post by ID " + id + " function\nCan not found post has id " + id;
+    public ResponseEntity<?> getPostById(@PathVariable Long id) {
+        Post post = this.postService.findPostById(id);
+        if (post == null) {
+            return new ResponseEntity<>("This post is not exist", HttpStatus.NOT_FOUND);
         }
-        return "Call find post by ID " + id + " function\n" + postService.findPostById(id).toString();
+        return new ResponseEntity<>(post, HttpStatus.FOUND);
     }
 
     @DeleteMapping("/{id}")
-    public String deletePostById(@PathVariable Long id) {
-        if (postService.deletePost(id)) {
-            return "Call delete user by ID " + id + " function\n" + "id " + id + " User has been deleted!";
-        } else if (postService.findPostById(id) == null) {
-            return "Call delete post by ID " + id + " function\n" + "Can not found post has id " + id;
+    public ResponseEntity<String> deletePostById(@PathVariable Long id) {
+        Post post = this.postService.findPostById(id);
+        if (post == null) {
+            return new ResponseEntity<>("This post is not exist", HttpStatus.NOT_FOUND);
         }
-        return "Call delete post by ID " + id + " function\n" + "Can not delete post has id " + id;
+
+        this.postService.deletePost(id);
+        return new ResponseEntity<>("A post with id=" + id + " is deleted successfully", HttpStatus.OK);
     }
 
     @PutMapping("/{id}")
-    public String updatePostById(@PathVariable Long id, @RequestBody Post post) {
-        if (postService.updatePost(id, post) != null) {
-            return "Call update post by ID " + id + " function\n" + postService.updatePost(id, post).toString();
+    public ResponseEntity<String> updatePostById(@PathVariable Long id, @RequestBody Post post) {
+        if (this.postService.updatePost(id, post) != null) {
+            return new ResponseEntity<>("A post with id=" + id + " is updated successfully", HttpStatus.OK);
         }
-        return "Call update post by ID " + id + " function\n" + "Failed Update!!!";
+        return new ResponseEntity<>("The post with id=" + post.getId() + " fail updated. Try again!",
+                HttpStatus.BAD_REQUEST);
     }
 
-    @PostMapping("/add")
+    @PostMapping("/")
     public String addPost(@RequestBody Post post) {
         post = postService.addPost(post);
         if (post == null) {

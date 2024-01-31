@@ -1,6 +1,10 @@
 package ct250.backend.payment;
 
+import java.util.ArrayList;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -11,51 +15,48 @@ public class PaymentController {
     private PaymentService paymentService;
 
     @GetMapping({ "/", "" })
-    public String getAllPayment() {
-        paymentService.findAllPayments();
-        String paymentList = "";
-        for (Payment payment : paymentService.getPayments()) {
-            paymentList += "\n" + payment.toString();
-        }
-        return "Call find all payments function " + paymentList;
+    public ArrayList<Payment> getAllPayment() {
+        return this.paymentService.findAllPayments();
     }
 
     @GetMapping("/{id}")
-    public String getPaymentById(@PathVariable Long id) {
-        Payment payment = paymentService.findPaymentById(id);
+    public ResponseEntity<?> getPaymentById(@PathVariable Long id) {
+        Payment payment = this.paymentService.findPaymentById(id);
         if (payment == null) {
-            return "Call find payment by ID " + id + " function\nCan not found payment with id " + id;
+            return new ResponseEntity<>("This payment is not exist", HttpStatus.NOT_FOUND);
         }
-        return "Call find payment by ID " + id + " function\n" + payment.toString();
+        return new ResponseEntity<>(payment, HttpStatus.FOUND);
     }
 
     @DeleteMapping("/{id}")
-    public String deletePaymentById(@PathVariable Long id) {
-        if (paymentService.deletePayment(id)) {
-            return "Call delete payment by ID " + id + " function\nPayment with id " + id + " has been deleted!";
-        } else if (paymentService.findPaymentById(id) == null) {
-            return "Call delete payment by ID " + id + " function\nCan not found payment with id " + id;
+    public ResponseEntity<String> deletePaymentById(@PathVariable Long id) {
+        Payment payment = this.paymentService.findPaymentById(id);
+        if (payment == null) {
+            return new ResponseEntity<>("This payment is not exist", HttpStatus.NOT_FOUND);
         }
 
-        return "Call delete payment by ID " + id + " function\n" + "Can not delete payment has id " + id;
+        this.paymentService.deletePayment(id);
+        return new ResponseEntity<>("A payment with id=" + id + " is deleted successfully", HttpStatus.OK);
 
     }
 
     @PutMapping("/{id}")
-    public String updatePaymentById(@PathVariable Long id, @RequestBody Payment payment) {
-        if (paymentService.updatePayment(id, payment) != null) {
-            return "Call update payment by ID " + id + " function\n"
-                    + paymentService.updatePayment(id, payment).toString();
+    public ResponseEntity<String> updatePaymentById(@PathVariable Long id, @RequestBody Payment payment) {
+        if (this.paymentService.updatePayment(id, payment) != null) {
+            return new ResponseEntity<>("A payment with id=" + id + " is updated successfully", HttpStatus.OK);
         }
-        return "Call update payment by ID " + id + " function\n" + "Failed Update!!!Not found Payment";
+        return new ResponseEntity<>("The payment with id=" + payment.getId() + " fail updated. Try again!",
+                HttpStatus.BAD_REQUEST);
     }
 
-    @PostMapping("/add")
-    public String addPayment(@RequestBody Payment payment) {
-        payment = paymentService.addPayment(payment);
-        if (payment == null) {
-            return "Call add payment function \n" + "Add payment failed";
+    @PostMapping("/")
+    public ResponseEntity<?> addPayment(@RequestBody Payment payment) {
+        Payment isExistedPayment = this.paymentService.findPaymentById(payment.getId());
+        if (isExistedPayment == null) {
+            this.paymentService.addPayment(payment);
+            return new ResponseEntity<>(payment, HttpStatus.CREATED);
         }
-        return "Call add payment function \n" + payment.toString();
+        return new ResponseEntity<>("The payment with id=" + payment.getId() + " existed. Try again!",
+                HttpStatus.BAD_REQUEST);
     }
 }
