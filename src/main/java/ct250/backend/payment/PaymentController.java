@@ -1,7 +1,5 @@
 package ct250.backend.payment;
 
-import java.util.ArrayList;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,8 +13,8 @@ public class PaymentController {
     private PaymentService paymentService;
 
     @GetMapping({ "/", "" })
-    public ArrayList<Payment> getAllPayment() {
-        return this.paymentService.findAllPayments();
+    public ResponseEntity<?> getAllPayment() {
+        return new ResponseEntity<>(this.paymentService.findAllPayments(), HttpStatus.OK);
     }
 
     @GetMapping("/{id}")

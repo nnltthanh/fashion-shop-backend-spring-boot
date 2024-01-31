@@ -1,7 +1,5 @@
 package ct250.backend.warehouse;
 
-import java.util.ArrayList;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,8 +20,8 @@ public class WarehouseController {
     private WarehouseService warehouseService;
 
     @GetMapping({ "/", "" })
-    public ArrayList<Warehouse> getAllWarehouse() {
-        return this.warehouseService.findAllWarehouses();
+    public ResponseEntity<?> getAllWarehouse() {
+        return new ResponseEntity<>(this.warehouseService.findAllWarehouses(), HttpStatus.OK);
     }
 
     @GetMapping("/{id}")

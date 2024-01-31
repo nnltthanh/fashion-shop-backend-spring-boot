@@ -22,8 +22,9 @@ public class PostController {
     private PostService postService;
 
     @GetMapping({ "/", "" })
-    public ArrayList<Post> getAllPost() {
-        return this.postService.findAllPosts();
+    public ResponseEntity<?> getAllPost() {
+        return new ResponseEntity<>(this.postService.findAllPosts(), HttpStatus.OK);
+
     }
 
     @GetMapping("/{id}")

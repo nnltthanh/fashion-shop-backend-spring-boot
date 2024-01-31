@@ -1,7 +1,5 @@
 package ct250.backend.shipment;
 
-import java.util.ArrayList;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,8 +13,8 @@ public class ShipmentController {
     private ShipmentService shipmentService;
 
     @GetMapping({ "/", "" })
-    public ArrayList<Shipment> getAllShipment() {
-        return this.shipmentService.findAllShipments();
+    public ResponseEntity<?> getAllShipment() {
+        return new ResponseEntity<>(this.shipmentService.findAllShipments(), HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
