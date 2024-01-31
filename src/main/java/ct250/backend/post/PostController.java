@@ -27,7 +27,7 @@ public class PostController {
         return "Call find all posts function " + postList;
     }
 
-    @GetMapping("/id={id}")
+    @GetMapping("/{id}")
     public String getPostById(@PathVariable Long id) {
         if (postService.findPostById(id) == null) {
             return "Call find post by ID " + id + " function\nCan not found post has id " + id;
@@ -35,7 +35,7 @@ public class PostController {
         return "Call find post by ID " + id + " function\n" + postService.findPostById(id).toString();
     }
 
-    @DeleteMapping("/delete-id={id}")
+    @DeleteMapping("/{id}")
     public String deletePostById(@PathVariable Long id) {
         if (postService.deletePost(id)) {
             return "Call delete user by ID " + id + " function\n" + "id " + id + " User has been deleted!";
@@ -45,7 +45,7 @@ public class PostController {
         return "Call delete post by ID " + id + " function\n" + "Can not delete post has id " + id;
     }
 
-    @PutMapping("/update-id={id}")
+    @PutMapping("/{id}")
     public String updatePostById(@PathVariable Long id, @RequestBody Post post) {
         if (postService.updatePost(id, post) != null) {
             return "Call update post by ID " + id + " function\n" + postService.updatePost(id, post).toString();

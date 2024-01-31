@@ -20,7 +20,7 @@ public class NotificationController {
         return "Call find all notifications function " + notificationList;
     }
 
-    @GetMapping("/id={id}")
+    @GetMapping("/{id}")
     public String getNotificationById(@PathVariable Long id) {
         Notification notification = notificationService.findNotificationById(id);
         if (notification == null) {
@@ -29,7 +29,7 @@ public class NotificationController {
         return "Call find notification by ID " + id + " function\n" + notification.toString();
     }
 
-    @DeleteMapping("/delete-id={id}")
+    @DeleteMapping("/{id}")
     public String deleteNotificationById(@PathVariable Long id) {
         if (notificationService.deleteNotification(id)) {
             return "Call delete notification by ID " + id + " function\nNotification with id " + id
@@ -42,7 +42,7 @@ public class NotificationController {
 
     }
 
-    @PutMapping("/update-id={id}")
+    @PutMapping("/{id}")
     public String updateNotificationById(@PathVariable Long id, @RequestBody Notification notification) {
         if (notificationService.updateNotification(id, notification) != null) {
             return "Call update notification by ID " + id + " function\n"

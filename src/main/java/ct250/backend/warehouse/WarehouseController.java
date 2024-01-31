@@ -27,7 +27,7 @@ public class WarehouseController {
         return "Call find all warehouses function " + warehouseList;
     }
 
-    @GetMapping("/id={id}")
+    @GetMapping("/{id}")
     public String getWarehouseById(@PathVariable Long id) {
         if (warehouseService.findWarehouseById(id) == null) {
             return "Call find warehouse by ID " + id + " function\nCan not found warehouse has id " + id;
@@ -35,7 +35,7 @@ public class WarehouseController {
         return "Call find warehouse by ID " + id + " function\n" + warehouseService.findWarehouseById(id).toString();
     }
 
-    @DeleteMapping("/delete-id={id}")
+    @DeleteMapping("/{id}")
     public String deleteWarehouseById(@PathVariable Long id) {
         if (warehouseService.deleteWarehouse(id)) {
             return "Call delete warehouse by ID " + id + " function\n" + "id " + id + " Warehouse has been deleted!";
@@ -45,7 +45,7 @@ public class WarehouseController {
         return "Call delete warehouse by ID " + id + " function\n" + "Can not delete warehouse has id " + id;
     }
 
-    @PutMapping("/update-id={id}")
+    @PutMapping("/{id}")
     public String updateWarehouseById(@PathVariable Long id, @RequestBody Warehouse warehouse) {
         if (warehouseService.updateWarehouse(id, warehouse) != null) {
             return "Call update warehouse by ID " + id + " function\n"

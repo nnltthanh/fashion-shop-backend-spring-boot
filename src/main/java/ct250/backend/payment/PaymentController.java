@@ -20,7 +20,7 @@ public class PaymentController {
         return "Call find all payments function " + paymentList;
     }
 
-    @GetMapping("/id={id}")
+    @GetMapping("/{id}")
     public String getPaymentById(@PathVariable Long id) {
         Payment payment = paymentService.findPaymentById(id);
         if (payment == null) {
@@ -29,7 +29,7 @@ public class PaymentController {
         return "Call find payment by ID " + id + " function\n" + payment.toString();
     }
 
-    @DeleteMapping("/delete-id={id}")
+    @DeleteMapping("/{id}")
     public String deletePaymentById(@PathVariable Long id) {
         if (paymentService.deletePayment(id)) {
             return "Call delete payment by ID " + id + " function\nPayment with id " + id + " has been deleted!";
@@ -41,7 +41,7 @@ public class PaymentController {
 
     }
 
-    @PutMapping("/update-id={id}")
+    @PutMapping("/{id}")
     public String updatePaymentById(@PathVariable Long id, @RequestBody Payment payment) {
         if (paymentService.updatePayment(id, payment) != null) {
             return "Call update payment by ID " + id + " function\n"

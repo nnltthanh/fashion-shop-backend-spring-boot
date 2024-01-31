@@ -20,7 +20,7 @@ public class ShipmentController {
         return "Call find all shipments function " + shipmentList;
     }
 
-    @GetMapping("/id={id}")
+    @GetMapping("/{id}")
     public String shipPaymentById(@PathVariable Long id) {
         Shipment shipment = shipmentService.findShipmentById(id);
         if (shipment == null) {
@@ -29,7 +29,7 @@ public class ShipmentController {
         return "Call find shipment by ID " + id + " function\n" + shipment.toString();
     }
 
-    @DeleteMapping("/delete-id={id}")
+    @DeleteMapping("/{id}")
     public String deleteShipmentById(@PathVariable Long id) {
         if (shipmentService.deleteShipment(id)) {
             return "Call delete shipment by ID " + id + " function\nShipment with id " + id + " has been deleted!";
@@ -41,7 +41,7 @@ public class ShipmentController {
 
     }
 
-    @PutMapping("/update-id={id}")
+    @PutMapping("/{id}")
     public String updateShipmentById(@PathVariable Long id, @RequestBody Shipment shipment) {
         if (shipmentService.updateShipment(id, shipment) != null) {
             return "Call update shipment by ID " + id + " function\n"
