@@ -57,6 +57,8 @@ public class NotificationService {
             existingNotification.setContent(notification.getContent());
             // existingNotification.setDateTime(notification.getDateTime());
             existingNotification.setStatus(notification.getStatus());
+            existingNotification.setCustomer(notification.getCustomer());
+            existingNotification.setOrder(notification.getOrder());
 
             notificationRepository.save(existingNotification);
             return existingNotification;
