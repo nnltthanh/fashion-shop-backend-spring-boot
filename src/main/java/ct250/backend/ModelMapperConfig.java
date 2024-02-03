@@ -1,4 +1,4 @@
-package ct250.configure;
+package ct250.backend;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.context.annotation.Bean;

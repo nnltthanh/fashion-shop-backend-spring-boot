@@ -1,36 +1,56 @@
-package ct250.backend.user;
+package ct250.backend.role;
 
+import org.hibernate.Hibernate;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
-public class UserService {
+public class RoleService {
 
     @Autowired
-    private UserRepository userRepository;
+    private RoleRepository roleRepository;
 
-    public ArrayList<User> findAll() {
-        return (ArrayList<User>) this.userRepository.findAll();
+    @Autowired
+    private ModelMapper modelMapper;
+
+//    public ArrayList<Role> findAll() {
+//        return (ArrayList<Role>) this.roleRepository.findAll();
+//    }
+
+    public List<RoleDTO> findAll() {
+        List<Role> roles = this.roleRepository.findAll();
+        return roles.stream().map(RoleDTO::new).collect(Collectors.toList());
     }
 
-    public User findById(Long id) {
-        return this.userRepository.findById(id).orElse(null);
+//    public Role findById(Long id) {
+//        return this.roleRepository.findById(id).orElse(null);
+//    }
+
+    public RoleDTO findById(Long id) {
+        Role role = roleRepository.findById(id).orElse(null);
+//                .orElseThrow(() -> new RuntimeException("User not found with id: " + id));
+        if (role != null) {
+            Hibernate.initialize(role.getPrivileges()); // Eagerly fetch roles
+            return modelMapper.map(role, RoleDTO.class);
+        }
+        return null;
     }
 
-    public User findByAccount(String account) {
-        return this.userRepository.findUserByAccount(account).orElse(null);
+    public Role findByName(String name) {
+        return this.roleRepository.findByName(name).orElse(null);
     }
 
-    public void add(User user) {
-        if (this.findById(user.getId()) == null) {
-            this.userRepository.save(user);
+    public void add(Role role) {
+        if (this.findById(role.getId()) == null) {
+            this.roleRepository.save(role);
         }
     }
 
-
     public void deleteById(Long id) {
-        this.userRepository.deleteById(id);
+        this.roleRepository.deleteById(id);
     }
 }

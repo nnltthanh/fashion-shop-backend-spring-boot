@@ -27,7 +27,7 @@ SET time_zone = "+00:00";
 -- Cấu trúc bảng cho bảng `customer`
 --
 
-CREATE TABLE `customer` (
+CREATE TABLE `user` (
   `id` bigint(20) NOT NULL,
   `account` varchar(20) DEFAULT NULL,
   `address` varchar(255) DEFAULT NULL,
@@ -45,7 +45,7 @@ CREATE TABLE `customer` (
 -- Đang đổ dữ liệu cho bảng `customer`
 --
 
-INSERT INTO `customer` (`id`, `account`, `address`, `avatar_url`, `created_at`, `dob`, `email`, `name`, `password`, `phone`, `updated_at`) VALUES
+INSERT INTO `user` (`id`, `account`, `address`, `avatar_url`, `created_at`, `dob`, `email`, `name`, `password`, `phone`, `updated_at`) VALUES
 (1, 'customer1', '123 Main Street, Cityville', NULL, NULL, '1990-01-01', 'customer1@example.com', 'Nguyen Van A', 'password1', '1234567890', NULL),
 (2, 'customer2', '456 Oak Avenue, Townsville', NULL, '2024-01-29 17:25:30.000000', '1985-03-15', 'customer2@example.com', 'Tran Thi B', 'password2', '9876543210', NULL),
 (3, 'customer3', '789 Pine Road, Villageland', NULL, NULL, '1995-07-20', 'customer3@example.com', 'Le Van C', 'password3', '5551237890', NULL),
@@ -72,7 +72,7 @@ INSERT INTO `customer` (`id`, `account`, `address`, `avatar_url`, `created_at`, 
 --
 -- Chỉ mục cho bảng `customer`
 --
-ALTER TABLE `customer`
+ALTER TABLE `user`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -82,7 +82,7 @@ ALTER TABLE `customer`
 --
 -- AUTO_INCREMENT cho bảng `customer`
 --
-ALTER TABLE `customer`
+ALTER TABLE `user`
   MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 COMMIT;
 

@@ -1,32 +1,57 @@
-package ct250.backend.customer;
+package ct250.backend.user;
 
+import org.hibernate.Hibernate;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
-public class CustomerService {
+public class UserService {
 
     @Autowired
-    private CustomerRepository customerRepository;
+    private UserRepository userRepository;
 
-    public ArrayList<Customer> findAll() {
-        return (ArrayList<Customer>) customerRepository.findAll();
+    @Autowired
+    private ModelMapper modelMapper;
+
+//    public ArrayList<User> findAll() {
+//        return users = this.userRepository.findAll();
+//    }
+
+    public List<UserDTO> findAll() {
+        List<User> users = this.userRepository.findAll();
+        return users.stream().map(UserDTO::new).collect(Collectors.toList());
     }
 
-    public Customer findById(Long id) {
-        return customerRepository.findById(id).orElse(null);
+//    public User findById(Long id) {
+//        return this.userRepository.findById(id).orElse(null);
+//    }
+
+    public UserDTO findById(Long id) {
+        User user = userRepository.findById(id).orElse(null);
+//                .orElseThrow(() -> new RuntimeException("User not found with id: " + id));
+        if (user != null) {
+            Hibernate.initialize(user.getRoles()); // Eagerly fetch roles
+            return modelMapper.map(user, UserDTO.class);
+        }
+        return null;
     }
 
-    public void add(Customer customer) {
-        if (this.findById(customer.getId()) == null) {
-            this.customerRepository.save(customer);
+    public User findByAccount(String account) {
+        return this.userRepository.findUserByAccount(account).orElse(null);
+    }
+
+    public void add(User user) {
+        if (this.findById(user.getId()) == null) {
+            this.userRepository.save(user);
         }
     }
 
 
     public void deleteById(Long id) {
-        this.customerRepository.deleteById(id);
+        this.userRepository.deleteById(id);
     }
 }

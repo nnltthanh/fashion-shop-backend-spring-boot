@@ -1,50 +1,62 @@
-package ct250.backend.user;
+package ct250.backend.role;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
+import java.util.List;
 
 @RestController
-@RequestMapping("/users")
-public class UserController {
+@RequestMapping("/roles")
+public class RoleController {
 
     @Autowired
-    UserService userService;
+    RoleService roleService;
 
     @GetMapping(value = {"/", ""})
-    public ArrayList<User> getAllUsers() {
-        return this.userService.findAll();
+//    public ArrayList<Role> getAllRoles() {
+//        return this.roleService.findAll();
+//    }
+
+    public List<RoleDTO> getAllRoles() {
+        return this.roleService.findAll();
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<?> getUserById(@PathVariable Long id) {
-        User user = this.userService.findById(id);
-        if (user == null) {
-            return new ResponseEntity<>("This user is not exist", HttpStatus.NOT_FOUND);
+//    public ResponseEntity<?> getRoleById(@PathVariable Long id) {
+//        Role role = this.roleService.findById(id);
+//        if (role == null) {
+//            return new ResponseEntity<>("This role is not exist", HttpStatus.NOT_FOUND);
+//        }
+//        return new ResponseEntity<>(role, HttpStatus.FOUND);
+//    }
+
+    public ResponseEntity<?> getRoleById(@PathVariable Long id) {
+        RoleDTO roleDTO = roleService.findById(id);
+        if (roleDTO == null) {
+            return new ResponseEntity<>("This role is not exist", HttpStatus.NOT_FOUND);
         }
-        return new ResponseEntity<>(user, HttpStatus.FOUND);
+        return new ResponseEntity<>(roleDTO, HttpStatus.FOUND);
     }
 
     @PostMapping("/")
-    public ResponseEntity<?> addUser(@RequestBody User user) {
-        User isExistedUser = userService.findByAccount(user.getAccount());
-        if (isExistedUser == null) {
-            this.userService.add(user);
-            return new ResponseEntity<>(user, HttpStatus.CREATED);
+    public ResponseEntity<?> addRole(@RequestBody Role role) {
+        Role isExistedRole = this.roleService.findByName(role.getName());
+        if (isExistedRole == null) {
+            this.roleService.add(role);
+            return new ResponseEntity<>(role, HttpStatus.CREATED);
         }
-        return new ResponseEntity<>("The user with id=" + user.getId() + " existed. Try again!", HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>("The role with id=" + role.getId() + " existed. Try again!", HttpStatus.BAD_REQUEST);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> deleteUserById(@PathVariable Long id) {
-        User user = userService.findById(id);
-        if (user == null) {
-            return new ResponseEntity<>("This user is not exist", HttpStatus.NOT_FOUND);
+    public ResponseEntity<String> deleteRoleById(@PathVariable Long id) {
+        RoleDTO roleDTO = this.roleService.findById(id);
+        if (roleDTO == null) {
+            return new ResponseEntity<>("This role is not exist", HttpStatus.NOT_FOUND);
         }
-        this.userService.deleteById(id);
-        return new ResponseEntity<>("A user with id=" + id + " is deleted successfully", HttpStatus.OK);
+        this.roleService.deleteById(id);
+        return new ResponseEntity<>("A role with id=" + id + " is deleted successfully", HttpStatus.OK);
     }
 }

@@ -1,34 +1,26 @@
-package ct250.backend.customer;
+package ct250.backend.user;
 
-import java.util.Date;
-
+import com.fasterxml.jackson.annotation.JsonFormat;
+import ct250.backend.role.Role;
+import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import org.springframework.stereotype.Component;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.EntityListeners;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
-import jakarta.persistence.Temporal;
-import jakarta.persistence.TemporalType;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import java.util.Date;
+import java.util.List;
 
 @Component
 @Entity
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "customer")
+@Table(name = "user")
 @EntityListeners(AuditingEntityListener.class)
-public class Customer {
+public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -68,5 +60,13 @@ public class Customer {
     @Column(name = "updated_at")
     @Temporal(value = TemporalType.TIMESTAMP)
     private Date updatedAt;
-  
+
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "users_roles",
+            joinColumns = @JoinColumn(
+                    name = "user_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(
+                    name = "role_id", referencedColumnName = "id"))
+    private List<Role> roles;
 }

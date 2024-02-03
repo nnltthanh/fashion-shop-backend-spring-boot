@@ -1,4 +1,4 @@
-package ct250.backend.user;
+package ct250.backend.role;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
@@ -6,6 +6,7 @@ import org.springframework.stereotype.Repository;
 import java.util.Optional;
 
 @Repository
-public interface UserRepository extends JpaRepository<User, Long> {
-    Optional<User> findUserByAccount(String account);
+public interface RoleRepository extends JpaRepository<Role, Long> {
+
+    Optional<Role> findByName(String name);
 }
