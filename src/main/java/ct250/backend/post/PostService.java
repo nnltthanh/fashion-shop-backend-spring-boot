@@ -13,41 +13,17 @@ public class PostService {
     @Autowired
     private PostRepository postRepository;
 
-    private ArrayList<Post> posts;
-
-    public PostService(ArrayList<Post> posts) {
-        this.posts = posts;
-    }
-
-    public PostService() {
-        this.posts = new ArrayList<>();
-    }
-
-    public ArrayList<Post> getPosts() {
-        return posts;
-    }
-
-    public void setPosts(ArrayList<Post> posts) {
-        this.posts = posts;
-    }
-
     public ArrayList<Post> findAllPosts() {
-        System.out.println("Call find all posts function");
-        this.posts = (ArrayList<Post>) postRepository.findAll();
-        for (Post a : posts) {
-            System.out.println(a.toString());
-        }
-        return posts;
+        return (ArrayList<Post>) this.postRepository.findAll();
     }
 
     public Post findPostById(Long id) {
-        return postRepository.findById(id).orElse(null);
+        return this.postRepository.findById(id).orElse(null);
     }
 
     @Transactional
     public Post addPost(Post post) {
-        System.out.println(post);
-        return postRepository.save(post);
+        return this.postRepository.save(post);
     }
 
     @Transactional
@@ -63,7 +39,7 @@ public class PostService {
             existingPost.setPublicAt(post.getPublicAt());
             existingPost.setAdmin(post.getAdmin());
 
-            postRepository.save(existingPost);
+            this.postRepository.save(existingPost);
             return existingPost;
         }
         return null;
@@ -73,7 +49,7 @@ public class PostService {
     public boolean deletePost(Long id) {
         Post resultFindPost = findPostById(id);
         if (resultFindPost != null) {
-            postRepository.delete(resultFindPost);
+            this.postRepository.delete(resultFindPost);
             return true;
         } else {
             return false;

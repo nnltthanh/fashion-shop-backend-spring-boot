@@ -1,6 +1,8 @@
 package ct250.backend.notification;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -11,52 +13,48 @@ public class NotificationController {
     private NotificationService notificationService;
 
     @GetMapping({ "/", "" })
-    public String getAllNotification() {
-        notificationService.findAllNotifications();
-        String notificationList = "";
-        for (Notification notification : notificationService.getNotifications()) {
-            notificationList += "\n" + notification.toString();
-        }
-        return "Call find all notifications function " + notificationList;
+    public ResponseEntity<?> getAllNotification() {
+        return new ResponseEntity<>(this.notificationService.findAllNotifications(), HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
-    public String getNotificationById(@PathVariable Long id) {
-        Notification notification = notificationService.findNotificationById(id);
+    public ResponseEntity<?> getNotificationById(@PathVariable Long id) {
+        Notification notification = this.notificationService.findNotificationById(id);
         if (notification == null) {
-            return "Call find notification by ID " + id + " function\nCan not found notification with id " + id;
+            return new ResponseEntity<>("This notification is not exist", HttpStatus.NOT_FOUND);
         }
-        return "Call find notification by ID " + id + " function\n" + notification.toString();
+        return new ResponseEntity<>(notification, HttpStatus.FOUND);
     }
 
     @DeleteMapping("/{id}")
-    public String deleteNotificationById(@PathVariable Long id) {
-        if (notificationService.deleteNotification(id)) {
-            return "Call delete notification by ID " + id + " function\nNotification with id " + id
-                    + " has been deleted!";
-        } else if (notificationService.findNotificationById(id) == null) {
-            return "Call delete notification by ID " + id + " function\nCan not found notification with id " + id;
+    public ResponseEntity<String> deleteNotificationById(@PathVariable Long id) {
+        Notification notification = this.notificationService.findNotificationById(id);
+        if (notification == null) {
+            return new ResponseEntity<>("This notification is not exist", HttpStatus.NOT_FOUND);
         }
 
-        return "Call delete notification by ID " + id + " function\n" + "Can not delete notification has id " + id;
-
+        this.notificationService.deleteNotification(id);
+        return new ResponseEntity<>("A notification with id=" + id + " is deleted successfully", HttpStatus.OK);
     }
 
     @PutMapping("/{id}")
-    public String updateNotificationById(@PathVariable Long id, @RequestBody Notification notification) {
-        if (notificationService.updateNotification(id, notification) != null) {
-            return "Call update notification by ID " + id + " function\n"
-                    + notificationService.updateNotification(id, notification).toString();
+    public ResponseEntity<String> updateNotificationById(@PathVariable Long id,
+            @RequestBody Notification notification) {
+        if (this.notificationService.updateNotification(id, notification) != null) {
+            return new ResponseEntity<>("A notification with id=" + id + " is updated successfully", HttpStatus.OK);
         }
-        return "Call update notification by ID " + id + " function\n" + "Failed Update!!!Not found Notification";
+        return new ResponseEntity<>("The notification with id=" + notification.getId() + " fail updated. Try again!",
+                HttpStatus.BAD_REQUEST);
     }
 
-    @PostMapping("/add")
-    public String addNotification(@RequestBody Notification notification) {
-        notification = notificationService.addNotification(notification);
-        if (notification == null) {
-            return "Call add notification function \n" + "Add notification failed";
+    @PostMapping("/")
+    public ResponseEntity<?> addNotification(@RequestBody Notification notification) {
+        Notification isExistedNotification = this.notificationService.findNotificationById(notification.getId());
+        if (isExistedNotification == null) {
+            this.notificationService.addNotification(notification);
+            return new ResponseEntity<>(notification, HttpStatus.CREATED);
         }
-        return "Call add notification function \n" + notification.toString();
+        return new ResponseEntity<>("The notification with id=" + notification.getId() + " existed. Try again!",
+                HttpStatus.BAD_REQUEST);
     }
 }

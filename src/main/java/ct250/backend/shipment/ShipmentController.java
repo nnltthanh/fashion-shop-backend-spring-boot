@@ -1,6 +1,8 @@
 package ct250.backend.shipment;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -11,51 +13,47 @@ public class ShipmentController {
     private ShipmentService shipmentService;
 
     @GetMapping({ "/", "" })
-    public String getAllShipment() {
-        shipmentService.findAllShipments();
-        String shipmentList = "";
-        for (Shipment shipment : shipmentService.getShipments()) {
-            shipmentList += "\n" + shipment.toString();
-        }
-        return "Call find all shipments function " + shipmentList;
+    public ResponseEntity<?> getAllShipment() {
+        return new ResponseEntity<>(this.shipmentService.findAllShipments(), HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
-    public String shipPaymentById(@PathVariable Long id) {
-        Shipment shipment = shipmentService.findShipmentById(id);
+    public ResponseEntity<?> shipPaymentById(@PathVariable Long id) {
+        Shipment shipment = this.shipmentService.findShipmentById(id);
         if (shipment == null) {
-            return "Call find shipment by ID " + id + " function\nCan not found shipment with id " + id;
+            return new ResponseEntity<>("This shipment is not exist", HttpStatus.NOT_FOUND);
         }
-        return "Call find shipment by ID " + id + " function\n" + shipment.toString();
+        return new ResponseEntity<>(shipment, HttpStatus.FOUND);
     }
 
     @DeleteMapping("/{id}")
-    public String deleteShipmentById(@PathVariable Long id) {
-        if (shipmentService.deleteShipment(id)) {
-            return "Call delete shipment by ID " + id + " function\nShipment with id " + id + " has been deleted!";
-        } else if (shipmentService.findShipmentById(id) == null) {
-            return "Call delete shipment by ID " + id + " function\nCan not found shipment with id " + id;
+    public ResponseEntity<String> deleteShipmentById(@PathVariable Long id) {
+        Shipment shipment = this.shipmentService.findShipmentById(id);
+        if (shipment == null) {
+            return new ResponseEntity<>("This shipment is not exist", HttpStatus.NOT_FOUND);
         }
 
-        return "Call delete shipment by ID " + id + " function\n" + "Can not delete shipment has id " + id;
-
+        this.shipmentService.deleteShipment(id);
+        return new ResponseEntity<>("A shipment with id=" + id + " is deleted successfully", HttpStatus.OK);
     }
 
     @PutMapping("/{id}")
-    public String updateShipmentById(@PathVariable Long id, @RequestBody Shipment shipment) {
-        if (shipmentService.updateShipment(id, shipment) != null) {
-            return "Call update shipment by ID " + id + " function\n"
-                    + shipmentService.updateShipment(id, shipment).toString();
+    public ResponseEntity<String> updateShipmentById(@PathVariable Long id, @RequestBody Shipment shipment) {
+        if (this.shipmentService.updateShipment(id, shipment) != null) {
+            return new ResponseEntity<>("A shipment with id=" + id + " is updated successfully", HttpStatus.OK);
         }
-        return "Call update shipment by ID " + id + " function\n" + "Failed Update!!!Not found Shipment";
+        return new ResponseEntity<>("The notification with id=" + shipment.getId() + " fail updated. Try again!",
+                HttpStatus.BAD_REQUEST);
     }
 
-    @PostMapping("/add")
-    public String addShipment(@RequestBody Shipment shipment) {
-        shipment = shipmentService.addShipment(shipment);
-        if (shipment == null) {
-            return "Call add shipment function \n" + "Add shipment failed";
+    @PostMapping("/")
+    public ResponseEntity<?> addShipment(@RequestBody Shipment shipment) {
+        Shipment isExistedShipment = this.shipmentService.findShipmentById(shipment.getId());
+        if (isExistedShipment == null) {
+            this.shipmentService.addShipment(shipment);
+            return new ResponseEntity<>(shipment, HttpStatus.CREATED);
         }
-        return "Call add shipment function \n" + shipment.toString();
+        return new ResponseEntity<>("The shipment with id=" + shipment.getId() + " existed. Try again!",
+                HttpStatus.BAD_REQUEST);
     }
 }
