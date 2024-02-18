@@ -31,12 +31,14 @@ public class ManagerController {
     @PostMapping("/")
     public ResponseEntity<?> addManager(@RequestBody Manager manager) {
         // Check if customer exist or not?
-        Manager isExistedManager = managerService.findById(manager.getId());
-        if (isExistedManager == null) {
-            this.managerService.add(manager);
-            return new ResponseEntity<>(manager, HttpStatus.CREATED);
-        }
-        return new ResponseEntity<>("The employee with id=" + manager.getId() + " existed. Try again!", HttpStatus.BAD_REQUEST);
+        // Manager isExistedManager = managerService.findById(manager.getId());
+        // if (isExistedManager == null) {
+        //     this.managerService.add(manager);
+        //     return new ResponseEntity<>(manager, HttpStatus.CREATED);
+        // }
+        // return new ResponseEntity<>("The employee with id=" + manager.getId() + " existed. Try again!", HttpStatus.BAD_REQUEST);
+        this.managerService.add(manager);
+        return new ResponseEntity<>(manager, HttpStatus.CREATED);
     }
 
     @DeleteMapping("/{id}")

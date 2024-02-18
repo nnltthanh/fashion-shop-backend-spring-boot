@@ -31,12 +31,14 @@ public class StaffController {
     @PostMapping("/")
     public ResponseEntity<?> addStaff(@RequestBody Staff staff) {
         // Check if customer exist or not?
-        Staff isExistedStaff = staffService.findById(staff.getId());
-        if (isExistedStaff == null) {
-            this.staffService.add(staff);
+        // Staff isExistedStaff = staffService.findById(staff.getId());
+        // if (isExistedStaff == null) {
+        //     this.staffService.add(staff);
+        //     return new ResponseEntity<>(staff, HttpStatus.CREATED);
+        // }
+        // return new ResponseEntity<>("The staff with id=" + staff.getId() + " existed. Try again!", HttpStatus.BAD_REQUEST);
+        this.staffService.add(staff);
             return new ResponseEntity<>(staff, HttpStatus.CREATED);
-        }
-        return new ResponseEntity<>("The staff with id=" + staff.getId() + " existed. Try again!", HttpStatus.BAD_REQUEST);
     }
 
     @DeleteMapping("/{id}")
