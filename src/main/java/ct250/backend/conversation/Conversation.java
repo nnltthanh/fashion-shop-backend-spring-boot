@@ -4,11 +4,16 @@ import java.util.Date;
 
 import org.springframework.stereotype.Component;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
+import ct250.backend.user.User;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
@@ -30,10 +35,19 @@ public class Conversation {
     private Long id;
 
     @Temporal(TemporalType.TIMESTAMP)
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Asia/Ho_Chi_Minh")
     private Date startTime;
 
+    @Temporal(TemporalType.TIMESTAMP)
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Asia/Ho_Chi_Minh")
     private Date endTime;
 
-    // private 
+    @JoinColumn(name = "sender", referencedColumnName = "account")
+    @ManyToOne(targetEntity=User.class)
+    private User sendFrom;
+    
+    @JoinColumn(name = "receiver", referencedColumnName = "account")
+    @ManyToOne(targetEntity=User.class)
+    private User sendTo;
 
 }

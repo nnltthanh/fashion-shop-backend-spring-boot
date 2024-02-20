@@ -8,15 +8,10 @@ import org.springframework.stereotype.Component;
 
 @Component
 @Entity
-@Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "staff")
+@DiscriminatorValue("staff")
 public class Staff extends Employee {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
 
     @OneToOne
     @JoinColumn(name = "warehouse_id", referencedColumnName = "id")

@@ -20,9 +20,10 @@ public class CustomerService {
     }
 
     public void add(Customer customer) {
-        if (this.findById(customer.getId()) == null) {
-            this.customerRepository.save(customer);
-        }
+        // if (this.findById(customer.getId()) == null) {
+        //     this.customerRepository.save(customer);
+        // }
+        this.customerRepository.save(customer);
     }
 
 

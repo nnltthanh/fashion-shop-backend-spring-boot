@@ -8,12 +8,16 @@ import org.springframework.stereotype.Component;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
+import ct250.backend.conversation.Conversation;
+import ct250.backend.user.User;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EntityListeners;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
@@ -42,4 +46,12 @@ public class Message {
     @CreatedDate
     @Temporal(TemporalType.TIMESTAMP)
     private Date timeStamp;
+
+    @ManyToOne
+    private Conversation conversation;
+
+    @JoinColumn(name = "sender", referencedColumnName = "account")
+    @ManyToOne(targetEntity=User.class)
+    private User sendFrom;
+    
 }

@@ -31,12 +31,14 @@ public class CustomerController {
     @PostMapping("/")
     public ResponseEntity<?> addCustomer(@RequestBody Customer customer) {
         // Check if customer is exist or not?
-        Customer isExistedCustomer = customerService.findById(customer.getId());
-        if (isExistedCustomer == null) {
-            this.customerService.add(customer);
-            return new ResponseEntity<>(customer, HttpStatus.CREATED);
-        }
-        return new ResponseEntity<>("The customer with id=" + customer.getId() + " existed. Try again!", HttpStatus.BAD_REQUEST);
+        // Customer isExistedCustomer = customerService.findById(customer.getId());
+        // if (isExistedCustomer == null) {
+        //     this.customerService.add(customer);
+        //     return new ResponseEntity<>(customer, HttpStatus.CREATED);
+        // }
+        // return new ResponseEntity<>("The customer with id=" + customer.getId() + " existed. Try again!", HttpStatus.BAD_REQUEST);
+        this.customerService.add(customer);
+        return new ResponseEntity<>(customer, HttpStatus.CREATED);
     }
 
     @DeleteMapping("/{id}")
