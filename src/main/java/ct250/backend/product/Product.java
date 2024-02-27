@@ -1,23 +1,16 @@
 package ct250.backend.product;
 
-import java.math.BigDecimal;
-
-import org.springframework.stereotype.Component;
-
 import ct250.backend.imagedata.ImageData;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+import org.springframework.stereotype.Component;
+
+import java.math.BigDecimal;
+import java.util.Date;
 
 @Component
 @Entity
@@ -38,6 +31,9 @@ public class Product {
     @Column(precision = 10, scale = 2)
     private BigDecimal price;
 
+    @Column
+    private int salePercent;
+
     @Enumerated(EnumType.STRING)
     private ProductType type;
 
@@ -47,5 +43,15 @@ public class Product {
     @ManyToOne
     @JoinColumn(name = "imagedata_id")
     private ImageData imageData;
+
+    @Column(name = "created_at")
+    @Temporal(value = TemporalType.TIMESTAMP)
+    @CreationTimestamp
+    private Date createdAt;
+
+    @Column(name = "updated_at")
+    @Temporal(value = TemporalType.TIMESTAMP)
+    @UpdateTimestamp
+    private Date updatedAt;
 
 }
