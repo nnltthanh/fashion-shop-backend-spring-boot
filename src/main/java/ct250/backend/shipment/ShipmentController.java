@@ -18,7 +18,7 @@ public class ShipmentController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<?> shipPaymentById(@PathVariable Long id) {
+    public ResponseEntity<?> getShipmentById(@PathVariable Long id) {
         Shipment shipment = this.shipmentService.findShipmentById(id);
         if (shipment == null) {
             return new ResponseEntity<>("This shipment is not exist", HttpStatus.NOT_FOUND);
@@ -42,7 +42,7 @@ public class ShipmentController {
         if (this.shipmentService.updateShipment(id, shipment) != null) {
             return new ResponseEntity<>("A shipment with id=" + id + " is updated successfully", HttpStatus.OK);
         }
-        return new ResponseEntity<>("The notification with id=" + shipment.getId() + " fail updated. Try again!",
+        return new ResponseEntity<>("The shipment with id=" + shipment.getId() + " fail updated. Try again!",
                 HttpStatus.BAD_REQUEST);
     }
 
