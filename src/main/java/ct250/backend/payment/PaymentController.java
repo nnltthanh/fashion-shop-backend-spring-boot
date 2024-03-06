@@ -1,9 +1,14 @@
 package ct250.backend.payment;
 
+import java.io.IOException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import jakarta.servlet.ServletException;
+import jakarta.websocket.server.PathParam;
 
 @RestController
 @RequestMapping("/payment")
@@ -47,14 +52,21 @@ public class PaymentController {
                 HttpStatus.BAD_REQUEST);
     }
 
-    @PostMapping("/")
-    public ResponseEntity<?> addPayment(@RequestBody Payment payment) {
-        Payment isExistedPayment = this.paymentService.findPaymentById(payment.getId());
-        if (isExistedPayment == null) {
-            this.paymentService.addPayment(payment);
-            return new ResponseEntity<>(payment, HttpStatus.CREATED);
+    // @PostMapping("/")
+    // public ResponseEntity<?> addPayment(@RequestBody Payment payment) {
+    //     Payment isExistedPayment = this.paymentService.findPaymentById(payment.getId());
+    //     if (isExistedPayment == null) {
+    //         this.paymentService.addPayment(payment);
+    //         return new ResponseEntity<>(payment, HttpStatus.CREATED);
+    //     }
+    //     return new ResponseEntity<>("The payment with id=" + payment.getId() + " existed. Try again!",
+    //             HttpStatus.BAD_REQUEST);
+    // }
+
+    @GetMapping("/{orderId}/vnpay")
+    public ResponseEntity<?> addPayment(@PathVariable("orderId") Long orderId, @RequestBody Payment payment) throws ServletException, IOException {
+        return new ResponseEntity<>(this.paymentService.getVNPayTransaction(orderId, payment),
+                    HttpStatus.OK);
         }
-        return new ResponseEntity<>("The payment with id=" + payment.getId() + " existed. Try again!",
-                HttpStatus.BAD_REQUEST);
-    }
+
 }

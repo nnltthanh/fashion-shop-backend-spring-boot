@@ -3,6 +3,9 @@ package ct250.backend.payment;
 import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.stereotype.Component;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import ct250.backend.order.Order;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -36,5 +39,8 @@ public class Payment {
 
     @Column(name = "method", length = 50)
     private String method;
+
+    @Column(columnDefinition = "TEXT")
+    private String paymentUrl;
 
 }
