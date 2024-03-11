@@ -1,12 +1,11 @@
 package ct250.backend.user;
 
+import java.util.List;
+
 import org.hibernate.Hibernate;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class UserService {
@@ -17,22 +16,15 @@ public class UserService {
     @Autowired
     private ModelMapper modelMapper;
 
-//    public ArrayList<User> findAll() {
-//        return users = this.userRepository.findAll();
-//    }
-
     public List<UserDTO> findAll() {
         List<User> users = this.userRepository.findAll();
-        return users.stream().map(UserDTO::new).collect(Collectors.toList());
+        return users.stream().map(UserDTO::new).toList();
     }
 
-//    public User findById(Long id) {
-//        return this.userRepository.findById(id).orElse(null);
-//    }
-
+    @SuppressWarnings("null")
     public UserDTO findById(Long id) {
         User user = userRepository.findById(id).orElse(null);
-//                .orElseThrow(() -> new RuntimeException("User not found with id: " + id));
+
         if (user != null) {
             Hibernate.initialize(user.getRoles()); // Eagerly fetch roles
             return modelMapper.map(user, UserDTO.class);
@@ -50,7 +42,7 @@ public class UserService {
         }
     }
 
-
+    @SuppressWarnings("null")
     public void deleteById(Long id) {
         this.userRepository.deleteById(id);
     }

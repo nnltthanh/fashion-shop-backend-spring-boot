@@ -4,7 +4,6 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
-import org.springframework.web.bind.annotation.CrossOrigin;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -12,7 +11,6 @@ import lombok.extern.slf4j.Slf4j;
 @EnableJpaAuditing
 @Configuration
 @Slf4j
-// @CrossOrigin(origins = "http://localhost:8081")
 public class FashionShopBackendApplication {
 	public static void main(String[] args) {
 		log.info("Server of fashion shop is running...");

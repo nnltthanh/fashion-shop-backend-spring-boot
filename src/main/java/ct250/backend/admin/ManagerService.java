@@ -15,15 +15,18 @@ public class ManagerService {
         return (ArrayList<Manager>) managerRepository.findAll();
     }
 
+    @SuppressWarnings("null")
     public Manager findById(Long id) {
         return managerRepository.findById(id).orElse(null);
     }
 
+    @SuppressWarnings("null")
     public void add(Manager manager) {
         this.managerRepository.save(manager);
     }
 
 
+    @SuppressWarnings("null")
     public void deleteById(Long id) {
         this.managerRepository.deleteById(id);
     }

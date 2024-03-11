@@ -17,10 +17,12 @@ public class PostService {
         return (ArrayList<Post>) this.postRepository.findAll();
     }
 
+    @SuppressWarnings("null")
     public Post findPostById(Long id) {
         return this.postRepository.findById(id).orElse(null);
     }
 
+    @SuppressWarnings("null")
     @Transactional
     public Post addPost(Post post) {
         return this.postRepository.save(post);

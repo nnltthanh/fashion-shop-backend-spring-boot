@@ -1,9 +1,9 @@
 package ct250.backend.coupon;
 
+import java.util.ArrayList;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.ArrayList;
 
 @Service
 public class CouponService {
@@ -15,6 +15,7 @@ public class CouponService {
         return (ArrayList<Coupon>) couponRepository.findAll();
     }
 
+    @SuppressWarnings("null")
     public Coupon findById(Long id) {
         return couponRepository.findById(id).orElse(null);
     }
@@ -25,7 +26,7 @@ public class CouponService {
         }
     }
 
-
+    @SuppressWarnings("null")
     public void deleteById(Long id) {
         this.couponRepository.deleteById(id);
     }

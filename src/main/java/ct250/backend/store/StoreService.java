@@ -15,10 +15,12 @@ public class StoreService {
         return (ArrayList<Store>) this.storeRespository.findAll();
     }
 
+    @SuppressWarnings("null")
     public Store findStoreById(Long id) {
         return this.storeRespository.findById(id).orElse(null);
     }
 
+    @SuppressWarnings("null")
     @Transactional
     public Store addStore(Store store) {
         return this.storeRespository.save(store);

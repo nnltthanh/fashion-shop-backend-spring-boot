@@ -16,10 +16,12 @@ public class WarehouseService {
         return (ArrayList<Warehouse>) this.warehouseRepository.findAll();
     }
 
+    @SuppressWarnings("null")
     public Warehouse findWarehouseById(Long id) {
         return this.warehouseRepository.findById(id).orElse(null);
     }
 
+    @SuppressWarnings("null")
     @Transactional
     public Warehouse addWarehouse(Warehouse warehouse) {
         return this.warehouseRepository.save(warehouse);

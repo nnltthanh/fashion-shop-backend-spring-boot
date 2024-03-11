@@ -1,12 +1,11 @@
 package ct250.backend.privilege;
 
+import java.util.List;
+
 import org.hibernate.Hibernate;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class PrivilegeService {
@@ -17,19 +16,13 @@ public class PrivilegeService {
     @Autowired
     private ModelMapper modelMapper;
 
-//    public ArrayList<Privilege> findAll() {
-//        return (ArrayList<Privilege>) this.privilegeRepository.findAll();
-//    }
 
     public List<PrivilegeDTO> findAll() {
         List<Privilege> privileges = this.privilegeRepository.findAll();
-        return privileges.stream().map(PrivilegeDTO::new).collect(Collectors.toList());
+        return privileges.stream().map(PrivilegeDTO::new).toList();
     }
 
-//    public Privilege findById(Long id) {
-//        return this.privilegeRepository.findById(id).orElse(null);
-//    }
-
+    @SuppressWarnings("null")
     public PrivilegeDTO findById(Long id) {
         Privilege privilege = privilegeRepository.findById(id).orElse(null);
 //                .orElseThrow(() -> new RuntimeException("User not found with id: " + id));
@@ -50,6 +43,7 @@ public class PrivilegeService {
         }
     }
 
+    @SuppressWarnings("null")
     public void deleteById(Long id) {
         this.privilegeRepository.deleteById(id);
     }

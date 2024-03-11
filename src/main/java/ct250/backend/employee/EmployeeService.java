@@ -15,15 +15,18 @@ public class EmployeeService {
         return (ArrayList<Employee>) employeeRepository.findAll();
     }
 
+    @SuppressWarnings("null")
     public Employee findById(Long id) {
         return employeeRepository.findById(id).orElse(null);
     }
 
+    @SuppressWarnings("null")
     public void add(Employee employee) {
         this.employeeRepository.save(employee);
     }
 
 
+    @SuppressWarnings("null")
     public void deleteById(Long id) {
         this.employeeRepository.deleteById(id);
     }

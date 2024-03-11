@@ -15,15 +15,18 @@ public class StaffService {
         return (ArrayList<Staff>) staffRepository.findAll();
     }
 
+    @SuppressWarnings("null")
     public Staff findById(Long id) {
         return staffRepository.findById(id).orElse(null);
     }
 
+    @SuppressWarnings("null")
     public void add(Staff manager) {
         this.staffRepository.save(manager);
     }
 
 
+    @SuppressWarnings("null")
     public void deleteById(Long id) {
         this.staffRepository.deleteById(id);
     }

@@ -14,6 +14,7 @@ public class ModelMapperConfig implements WebMvcConfigurer {
         return new ModelMapper();
     }
 
+    @SuppressWarnings("null")
     @Override
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**")

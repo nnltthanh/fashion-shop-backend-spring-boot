@@ -14,6 +14,7 @@ public class MessageService {
     @Autowired
     private MessageRepository messageRepository;
     
+    @SuppressWarnings("null")
     void addMessage(Message message) {
         this.messageRepository.save(message);
     }
@@ -26,11 +27,12 @@ public class MessageService {
         return (ArrayList<Message>) this.messageRepository.findByConversation_Id(id);
     }
 
+    @SuppressWarnings("null")
     public Message findMessageById(Long id) {
-        return  this.messageRepository.findById(id).isPresent() ? 
-                this.messageRepository.findById(id).get() : null;
+        return  this.messageRepository.findById(id).orElse(null);
     }
 
+    @SuppressWarnings("null")
     void deleteMessageById(Long id) {
         this.messageRepository.deleteById(id);
     }

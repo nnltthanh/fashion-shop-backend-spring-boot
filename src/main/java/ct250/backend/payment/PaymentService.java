@@ -1,7 +1,6 @@
 package ct250.backend.payment;
 
 import java.io.UnsupportedEncodingException;
-import java.math.BigDecimal;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.text.SimpleDateFormat;
@@ -17,7 +16,6 @@ import java.util.TimeZone;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import ct250.backend.order.Order;
 import ct250.backend.payment.vnpay.VNPayConfig;
 import jakarta.transaction.Transactional;
 
@@ -31,6 +29,7 @@ public class PaymentService {
         return (ArrayList<Payment>) this.paymentRepository.findAll();
     }
 
+    @SuppressWarnings("null")
     public Payment findPaymentById(Long id) {
         return this.paymentRepository.findById(id).orElse(null);
     }
@@ -40,19 +39,15 @@ public class PaymentService {
     //     return this.paymentRepository.save(payment);
     // }
 
-    String getVNPayTransaction(Long orderId, Payment payment) {
+    String getVNPayTransaction(Long orderId, Payment payment, String customerBankCode) {
  
         String orderType = "other";
         String vnp_Version = "2.1.0";
         String vnp_Command = "pay";
-        //long amount = Integer.parseInt(req.getParameter("amount"))*100;
         String amount = payment.getAmount().toString().concat("00");
-        //String bankCode = req.getParameter("bankCode");
-        String bankCode = "NCB";
+        String bankCode = customerBankCode;
         
-        // String vnp_TxnRef = Config.getRandomNumber(8);
         String vnp_TxnRef = String.valueOf(orderId);
-        //String vnp_IpAddr = Config.getIpAddress(req);
         String vnp_IpAddr = "127.0.0.1";
 
         String vnp_TmnCode = VNPayConfig.vnp_TmnCode;
@@ -89,6 +84,7 @@ public class PaymentService {
         StringBuilder hashData = new StringBuilder();
         StringBuilder query = new StringBuilder();
         Iterator itr = fieldNames.iterator();
+        
         while (itr.hasNext()) {
             String fieldName = (String) itr.next();
             String fieldValue = (String) vnp_Params.get(fieldName);

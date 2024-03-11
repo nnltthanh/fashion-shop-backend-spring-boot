@@ -15,10 +15,12 @@ public class ShipmentService {
         return (ArrayList<Shipment>) this.shipmentRepository.findAll();
     }
 
+    @SuppressWarnings("null")
     public Shipment findShipmentById(Long id) {
         return this.shipmentRepository.findById(id).orElse(null);
     }
 
+    @SuppressWarnings("null")
     @Transactional
     public Shipment addShipment(Shipment shipment) {
         return this.shipmentRepository.save(shipment);

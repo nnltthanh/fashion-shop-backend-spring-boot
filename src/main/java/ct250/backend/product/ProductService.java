@@ -17,6 +17,7 @@ public class ProductService {
     @Autowired
     private ProductDetailRepository productDetailRepository;
 
+    @SuppressWarnings("null")
     void addProduct(Product product) {
         this.productRepository.save(product);
     }
@@ -25,11 +26,12 @@ public class ProductService {
         return (ArrayList<Product>) this.productRepository.findAll();
     }
 
+    @SuppressWarnings("null")
     public Product findProductById(Long id) {
-        return  this.productRepository.findById(id).isPresent() ? 
-                this.productRepository.findById(id).get() : null;
+        return  this.productRepository.findById(id).orElse(null);
     }
 
+    @SuppressWarnings("null")
     void deleteProductById(Long id) {
         this.productRepository.deleteById(id);
     }
@@ -43,6 +45,7 @@ public class ProductService {
         }
     }
 
+    @SuppressWarnings("null")
     public ProductDetail updateProductDetail(ProductDetail productDetail) {
         return this.productDetailRepository.save(productDetail);
     }
@@ -51,13 +54,13 @@ public class ProductService {
         return (ArrayList<ProductDetail>) this.productDetailRepository.findByProduct_Id(productId);
     }
 
+    @SuppressWarnings("null")
     public ProductDetail findProductDetailById(Long id) {
-        return  this.productDetailRepository.findById(id).isPresent() ? 
-                this.productDetailRepository.findById(id).get() : null;
+        return  this.productDetailRepository.findById(id).orElse(null);
     }
 
+    @SuppressWarnings("null")
     void deleteProductDetailById(Long id) {
-        System.out.println(this.findProductDetailById(id));
         this.productDetailRepository.deleteById(id);
     }
 }

@@ -38,11 +38,12 @@ public class ReviewService {
         return (ArrayList<Review>) this.reviewRepository.findByOrderDetail_ProductDetail_Product_Id(productId);
     }
 
+    @SuppressWarnings("null")
     public Review findReviewById(Long id) {
-        return  this.reviewRepository.findById(id).isPresent() ? 
-                this.reviewRepository.findById(id).get() : null;
+        return this.reviewRepository.findById(id).orElse(null);
     }
 
+    @SuppressWarnings("null")
     void deleteReviewById(Long id) {
         this.reviewRepository.deleteById(id);
     }

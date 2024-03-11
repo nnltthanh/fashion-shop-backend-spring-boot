@@ -11,6 +11,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import ct250.backend.conversation.Conversation;
 import ct250.backend.user.User;
 import jakarta.persistence.Column;
+import jakarta.persistence.ConstraintMode;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EntityListeners;
 import jakarta.persistence.GeneratedValue;
@@ -33,7 +34,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @EntityListeners(AuditingEntityListener.class)
 public class Message {
-    
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column
@@ -48,10 +49,13 @@ public class Message {
     private Date timeStamp;
 
     @ManyToOne
+    @JoinColumn(name = "conversation_id")
     private Conversation conversation;
 
-    @JoinColumn(name = "sender", referencedColumnName = "account")
-    @ManyToOne(targetEntity=User.class)
-    private User sendFrom;
-    
+    @JoinColumn(name = "sender_account", referencedColumnName = "account", 
+                columnDefinition = "VARCHAR(20)", 
+                foreignKey = @jakarta.persistence.ForeignKey(value = ConstraintMode.NO_CONSTRAINT))
+    @ManyToOne(targetEntity = User.class)
+    private User sender;
+
 }

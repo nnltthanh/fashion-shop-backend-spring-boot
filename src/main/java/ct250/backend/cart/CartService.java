@@ -83,11 +83,12 @@ public class CartService {
                 this.cartRepository.findByCustomer_Id(customerId).get() : null;
     }
 
+    @SuppressWarnings("null")
     public CartDetail findCartDetailById(Long id) {
-        return  this.cartDetailRepository.findById(id).isPresent() ?
-                this.cartDetailRepository.findById(id).get() : null;
+        return  this.cartDetailRepository.findById(id).orElse(null);
     }
 
+    @SuppressWarnings("null")
     public void deleteCartDetail(Long id) {
         this.cartDetailRepository.deleteById(id);
     }

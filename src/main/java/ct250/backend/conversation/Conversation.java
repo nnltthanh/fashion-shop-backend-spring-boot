@@ -8,6 +8,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 
 import ct250.backend.user.User;
 import jakarta.persistence.Column;
+import jakarta.persistence.ConstraintMode;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -42,12 +43,16 @@ public class Conversation {
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Asia/Ho_Chi_Minh")
     private Date endTime;
 
-    @JoinColumn(name = "sender", referencedColumnName = "account")
+    @JoinColumn(name = "sender_account", referencedColumnName = "account", 
+                columnDefinition = "VARCHAR(20)", 
+                foreignKey = @jakarta.persistence.ForeignKey(value = ConstraintMode.NO_CONSTRAINT))
     @ManyToOne(targetEntity=User.class)
-    private User sendFrom;
+    private User sender;
     
-    @JoinColumn(name = "receiver", referencedColumnName = "account")
+    @JoinColumn(name = "receiver_account", referencedColumnName = "account", 
+                columnDefinition = "VARCHAR(20)", 
+                foreignKey = @jakarta.persistence.ForeignKey(value = ConstraintMode.NO_CONSTRAINT))
     @ManyToOne(targetEntity=User.class)
-    private User sendTo;
+    private User receiver;
 
 }

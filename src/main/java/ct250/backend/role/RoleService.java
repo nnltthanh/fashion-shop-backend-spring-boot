@@ -1,12 +1,11 @@
 package ct250.backend.role;
 
+import java.util.List;
+
 import org.hibernate.Hibernate;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class RoleService {
@@ -17,22 +16,15 @@ public class RoleService {
     @Autowired
     private ModelMapper modelMapper;
 
-//    public ArrayList<Role> findAll() {
-//        return (ArrayList<Role>) this.roleRepository.findAll();
-//    }
-
     public List<RoleDTO> findAll() {
         List<Role> roles = this.roleRepository.findAll();
-        return roles.stream().map(RoleDTO::new).collect(Collectors.toList());
+        return roles.stream().map(RoleDTO::new).toList();
     }
 
-//    public Role findById(Long id) {
-//        return this.roleRepository.findById(id).orElse(null);
-//    }
-
+    @SuppressWarnings("null")
     public RoleDTO findById(Long id) {
         Role role = roleRepository.findById(id).orElse(null);
-//                .orElseThrow(() -> new RuntimeException("User not found with id: " + id));
+        // .orElseThrow(() -> new RuntimeException("User not found with id: " + id));
         if (role != null) {
             Hibernate.initialize(role.getPrivileges()); // Eagerly fetch roles
             return modelMapper.map(role, RoleDTO.class);
@@ -50,6 +42,7 @@ public class RoleService {
         }
     }
 
+    @SuppressWarnings("null")
     public void deleteById(Long id) {
         this.roleRepository.deleteById(id);
     }

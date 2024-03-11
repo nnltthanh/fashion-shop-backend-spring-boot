@@ -15,10 +15,12 @@ public class NotificationService {
         return (ArrayList<Notification>) this.notificationRepository.findAll();
     }
 
+    @SuppressWarnings("null")
     public Notification findNotificationById(Long id) {
         return this.notificationRepository.findById(id).orElse(null);
     }
 
+    @SuppressWarnings("null")
     @Transactional
     public Notification addNotification(Notification notification) {
         return this.notificationRepository.save(notification);
