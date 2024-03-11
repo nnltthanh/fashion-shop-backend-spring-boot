@@ -31,5 +31,8 @@ public class Store {
 
     @Column(columnDefinition = "TEXT")
     private String name;
-    
+
+    @Column(columnDefinition = "TEXT")
+    private String mapUrl;
+
 }
