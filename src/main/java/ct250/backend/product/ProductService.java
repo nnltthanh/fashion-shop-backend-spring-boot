@@ -56,7 +56,22 @@ public class ProductService {
 
     @SuppressWarnings("null")
     public ProductDetail findProductDetailById(Long id) {
-        return  this.productDetailRepository.findById(id).orElse(null);
+        return this.productDetailRepository.findById(id).orElse(null);
+    }
+
+    public ProductDetail findProductDetailByColor(String color) {
+        return  this.productDetailRepository.findByColor(color).isPresent() ?
+                this.productDetailRepository.findByColor(color).get() : null;
+    }
+
+    public ProductDetail findProductDetailBySize(String size) {
+        return  this.productDetailRepository.findBySize(size).isPresent() ?
+                this.productDetailRepository.findBySize(size).get() : null;
+    }
+
+    public ProductDetail findProductDetailByColorAndSize(String color, String size) {
+        return  this.productDetailRepository.findByColorAndSize(color, size).isPresent() ?
+                this.productDetailRepository.findByColorAndSize(color, size).get() : null;
     }
 
     @SuppressWarnings("null")

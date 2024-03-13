@@ -31,12 +31,18 @@ public class ProductDetail {
 
     private String color;
 
+    private String colorImage;
+
     private String unit;
     
     private int quantity;
 
+    private int sold;
+
+    private String imageLink;
+
     @ManyToOne
     @JoinColumn(name = "product_id")
-    private Product product;            
+    private Product product;
 
 }
