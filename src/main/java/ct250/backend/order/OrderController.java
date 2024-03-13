@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.PutMapping;
+
 
 @RestController
 @RequestMapping("/customers/{customerId}/orders")
@@ -52,6 +54,12 @@ public class OrderController {
         @PathVariable Long orderId, @RequestBody Long[] cartDetailsList) {
         return new ResponseEntity<>(this.orderService.addOrderDetailsToOrder(orderId, cartDetailsList),
                                     HttpStatus.CREATED);
+    }
+
+    @PutMapping("/{orderId}")
+    public ResponseEntity<?> updateOrder(@PathVariable Long orderId, @RequestBody Order order) {
+        System.out.println("New order detail: " + order);
+        return new ResponseEntity<>(this.orderService.updateOrder(orderId, order), HttpStatus.OK);
     }
     
 }

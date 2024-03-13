@@ -9,13 +9,13 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import ct250.backend.cart.CartDetail;
 import ct250.backend.product.ProductDetail;
 import jakarta.persistence.Column;
+import jakarta.persistence.ConstraintMode;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -45,8 +45,8 @@ public class OrderDetail {
     @JsonIgnore
     private Order order;
 
-    @OneToOne
-    @JoinColumn(name = "product_detail_id")
+    @ManyToOne
+    @JoinColumn(name = "product_detail_id", foreignKey = @jakarta.persistence.ForeignKey(value = ConstraintMode.NO_CONSTRAINT))
     private ProductDetail productDetail;
 
     public OrderDetail(CartDetail cartDetail) {

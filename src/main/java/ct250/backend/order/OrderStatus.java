@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public enum OrderStatus {
+    CREATING,
     PENDING_PAYMENT,
     PROCESSING,
     SHIPPED,

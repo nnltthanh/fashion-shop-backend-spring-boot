@@ -20,10 +20,10 @@ public class CartController {
     @Autowired
     CartService cartService;
 
-    @PostMapping(value = "/{productDetailId}")
+    @PostMapping
     public ResponseEntity<?> addProductDetailToCart(@PathVariable Long customerId,
-            @PathVariable Long productDetailId, @RequestBody CartDetail cartDetail) {
-        CartDetail cartDetailDB = this.cartService.addProductDetailToCart(customerId, productDetailId, cartDetail);
+             @RequestBody CartDetail cartDetail) {
+        CartDetail cartDetailDB = this.cartService.addProductDetailToCart(customerId, cartDetail);
         if (cartDetailDB == null) {
             return new ResponseEntity<>("This product does not have enough quantity", HttpStatus.BAD_REQUEST);
         }

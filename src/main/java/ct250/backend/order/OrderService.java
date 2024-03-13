@@ -69,5 +69,18 @@ public class OrderService {
     public OrderDetail findOrderDetailById(Long id) {
         return this.orderDetailRepository.findById(id).orElse(null);
     }
+ 
+    public Order updateOrder(Long orderId, Order order) {
+        Order orderDB = this.findOrderById(orderId);
 
+        orderDB.setOrderDetails(order.getOrderDetails());
+        orderDB.setStatus(order.getStatus());
+        orderDB.setCoupon(order.getCoupon());
+        orderDB.setPayment(order.getPayment());
+        orderDB.setShipment(order.getShipment());
+        orderDB.setTotal(order.getTotal());
+
+        System.out.println("New order detail saved in DB: " + orderDB);
+        return this.orderRepository.saveAndFlush(orderDB);
+    }
 }

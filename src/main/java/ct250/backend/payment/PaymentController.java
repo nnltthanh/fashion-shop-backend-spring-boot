@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -45,7 +46,6 @@ public class PaymentController {
 
         this.paymentService.deletePayment(id);
         return new ResponseEntity<>("A payment with id=" + id + " is deleted successfully", HttpStatus.OK);
-
     }
 
     @PutMapping("/{id}")
@@ -68,10 +68,10 @@ public class PaymentController {
     //             HttpStatus.BAD_REQUEST);
     // }
 
-    @GetMapping("/{orderId}/vnpay")
+    @PostMapping("/{orderId}/vnpay")
     public ResponseEntity<?> addPayment(@PathVariable("orderId") Long orderId, @RequestBody Payment payment) throws ServletException, IOException {
         return new ResponseEntity<>(this.paymentService.getVNPayTransaction(orderId, payment, "NCB"),
                     HttpStatus.OK);
-        }
+    }
 
 }
