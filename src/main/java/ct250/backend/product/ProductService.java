@@ -56,6 +56,21 @@ public class ProductService {
                 this.productDetailRepository.findById(id).get() : null;
     }
 
+    public ProductDetail findProductDetailByColor(String color) {
+        return  this.productDetailRepository.findByColor(color).isPresent() ?
+                this.productDetailRepository.findByColor(color).get() : null;
+    }
+
+    public ProductDetail findProductDetailBySize(String size) {
+        return  this.productDetailRepository.findBySize(size).isPresent() ?
+                this.productDetailRepository.findBySize(size).get() : null;
+    }
+
+    public ProductDetail findProductDetailByColorAndSize(String color, String size) {
+        return  this.productDetailRepository.findByColorAndSize(color, size).isPresent() ?
+                this.productDetailRepository.findByColorAndSize(color, size).get() : null;
+    }
+
     void deleteProductDetailById(Long id) {
         System.out.println(this.findProductDetailById(id));
         this.productDetailRepository.deleteById(id);
