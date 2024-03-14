@@ -14,7 +14,7 @@ public class StaffController {
     @Autowired
     StaffService staffService;
 
-    @GetMapping(value = {"/", ""})
+    @GetMapping(value = { "/", "" })
     public ArrayList<Staff> getAllStaffs() {
         return this.staffService.findAll();
     }
@@ -33,12 +33,13 @@ public class StaffController {
         // Check if customer exist or not?
         // Staff isExistedStaff = staffService.findById(staff.getId());
         // if (isExistedStaff == null) {
-        //     this.staffService.add(staff);
-        //     return new ResponseEntity<>(staff, HttpStatus.CREATED);
+        // this.staffService.add(staff);
+        // return new ResponseEntity<>(staff, HttpStatus.CREATED);
         // }
-        // return new ResponseEntity<>("The staff with id=" + staff.getId() + " existed. Try again!", HttpStatus.BAD_REQUEST);
+        // return new ResponseEntity<>("The staff with id=" + staff.getId() + " existed.
+        // Try again!", HttpStatus.BAD_REQUEST);
         this.staffService.add(staff);
-            return new ResponseEntity<>(staff, HttpStatus.CREATED);
+        return new ResponseEntity<>(staff, HttpStatus.CREATED);
     }
 
     @DeleteMapping("/{id}")
@@ -50,4 +51,5 @@ public class StaffController {
         this.staffService.deleteById(id);
         return new ResponseEntity<>("A staff with id=" + id + " is deleted successfully", HttpStatus.OK);
     }
+
 }

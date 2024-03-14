@@ -19,13 +19,16 @@ public class CustomerService {
         return customerRepository.findById(id).orElse(null);
     }
 
+    public Customer findByAccount(String account) {
+        return customerRepository.findByAccount(account).orElse(null);
+    }
+
     public void add(Customer customer) {
         // if (this.findById(customer.getId()) == null) {
-        //     this.customerRepository.save(customer);
+        // this.customerRepository.save(customer);
         // }
         this.customerRepository.save(customer);
     }
-
 
     public void deleteById(Long id) {
         this.customerRepository.deleteById(id);

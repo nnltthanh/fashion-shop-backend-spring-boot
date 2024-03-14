@@ -13,7 +13,7 @@ import jakarta.persistence.InheritanceType;
 @Component
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
-@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
 public class Employee extends User {
 
   @Column

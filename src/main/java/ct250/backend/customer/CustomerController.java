@@ -14,7 +14,7 @@ public class CustomerController {
     @Autowired
     CustomerService customerService;
 
-    @GetMapping(value = {"/", ""})
+    @GetMapping(value = { "/", "" })
     public ArrayList<Customer> getAllCustomers() {
         return this.customerService.findAll();
     }
@@ -28,15 +28,25 @@ public class CustomerController {
         return new ResponseEntity<>(customer, HttpStatus.FOUND);
     }
 
+    @GetMapping("/account/{account}")
+    public ResponseEntity<?> getCustomerAccount(@PathVariable String account) {
+        Customer customer = customerService.findByAccount(account);
+        if (customer == null) {
+            return new ResponseEntity<>("This customer is not exist", HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(customer, HttpStatus.FOUND);
+    }
+
     @PostMapping("/")
     public ResponseEntity<?> addCustomer(@RequestBody Customer customer) {
         // Check if customer is exist or not?
         // Customer isExistedCustomer = customerService.findById(customer.getId());
         // if (isExistedCustomer == null) {
-        //     this.customerService.add(customer);
-        //     return new ResponseEntity<>(customer, HttpStatus.CREATED);
+        // this.customerService.add(customer);
+        // return new ResponseEntity<>(customer, HttpStatus.CREATED);
         // }
-        // return new ResponseEntity<>("The customer with id=" + customer.getId() + " existed. Try again!", HttpStatus.BAD_REQUEST);
+        // return new ResponseEntity<>("The customer with id=" + customer.getId() + "
+        // existed. Try again!", HttpStatus.BAD_REQUEST);
         this.customerService.add(customer);
         return new ResponseEntity<>(customer, HttpStatus.CREATED);
     }
@@ -49,5 +59,26 @@ public class CustomerController {
         }
         this.customerService.deleteById(id);
         return new ResponseEntity<>("A customer with id=" + id + " is deleted successfully", HttpStatus.OK);
+    }
+
+    @PostMapping("/register")
+    public ResponseEntity<?> registerCustomer(@RequestBody Customer customer) {
+        // Check if customer exists in the database
+        Customer existingCustomer = customerService.findByAccount(customer.getAccount());
+        if (existingCustomer != null) {
+            return new ResponseEntity<>("Customer existed", HttpStatus.CONFLICT);
+        }
+        this.customerService.add(customer);
+        return new ResponseEntity<>(existingCustomer, HttpStatus.CREATED);
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<?> loginCustomer(@RequestBody Customer customer) {
+        // Check if customer exists in the database
+        Customer existingCustomer = customerService.findByAccount(customer.getAccount());
+        if (existingCustomer == null) {
+            return new ResponseEntity<>("Customer not found", HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(existingCustomer, HttpStatus.OK);
     }
 }
