@@ -39,7 +39,8 @@ public class ProductDetail {
 
     private int sold;
 
-    private String imageLink;
+    @Column(columnDefinition = "TEXT")
+    private String imageLinks;
 
     @ManyToOne
     @JoinColumn(name = "product_id")
