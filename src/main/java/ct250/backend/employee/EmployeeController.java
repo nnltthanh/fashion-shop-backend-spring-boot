@@ -14,7 +14,7 @@ public class EmployeeController {
     @Autowired
     EmployeeService employeeService;
 
-    @GetMapping(value = {"/", ""})
+    @GetMapping(value = { "/", "" })
     public ArrayList<Employee> getAllEmployees() {
         return this.employeeService.findAll();
     }
@@ -36,7 +36,8 @@ public class EmployeeController {
             this.employeeService.add(employee);
             return new ResponseEntity<>(employee, HttpStatus.CREATED);
         }
-        return new ResponseEntity<>("The employee with id=" + employee.getId() + " existed. Try again!", HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>("The employee with id=" + employee.getId() + " existed. Try again!",
+                HttpStatus.BAD_REQUEST);
     }
 
     @DeleteMapping("/{id}")
@@ -47,5 +48,15 @@ public class EmployeeController {
         }
         this.employeeService.deleteById(id);
         return new ResponseEntity<>("An employee with id=" + id + " is deleted successfully", HttpStatus.OK);
+    }
+
+    @PostMapping("/loginEmployee")
+    public ResponseEntity<?> loginEmployee(@RequestBody Employee employee) {
+        // Check if customer exists in the database
+        Employee existingEmployee = employeeService.findByAccount(employee.getAccount());
+        if (existingEmployee == null) {
+            return new ResponseEntity<>("Employee not found", HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(existingEmployee, HttpStatus.OK);
     }
 }

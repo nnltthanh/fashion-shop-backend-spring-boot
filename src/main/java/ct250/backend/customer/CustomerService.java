@@ -20,11 +20,14 @@ public class CustomerService {
         return customerRepository.findById(id).orElse(null);
     }
 
+    public Customer findByAccount(String account) {
+        return customerRepository.findByAccount(account).orElse(null);
+    }
+
     @SuppressWarnings("null")
     public void add(Customer customer) {
         this.customerRepository.save(customer);
     }
-
 
     @SuppressWarnings("null")
     public void deleteById(Long id) {

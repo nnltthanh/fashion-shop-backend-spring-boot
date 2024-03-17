@@ -20,11 +20,14 @@ public class EmployeeService {
         return employeeRepository.findById(id).orElse(null);
     }
 
+    public Employee findByAccount(String account) {
+        return employeeRepository.findByAccount(account).orElse(null);
+    }
+
     @SuppressWarnings("null")
     public void add(Employee employee) {
         this.employeeRepository.save(employee);
     }
-
 
     @SuppressWarnings("null")
     public void deleteById(Long id) {
