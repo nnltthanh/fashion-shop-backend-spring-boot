@@ -27,7 +27,12 @@ public class OrderController {
         return new ResponseEntity<>(this.orderService.findAllOrders(customerId), HttpStatus.OK);
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/{orderId}")
+    public ResponseEntity<Order> getOrder(@PathVariable Long orderId) {
+        return new ResponseEntity<>(this.orderService.findOrderById(orderId), HttpStatus.OK);
+    }
+
+    @GetMapping("/{id}/details")
     public ResponseEntity<ArrayList<OrderDetail>> getAllOrderDetails(@PathVariable Long id) {
         return new ResponseEntity<>(this.orderService.findAllOrderDetailsByOrder(id), HttpStatus.OK);
     }

@@ -85,8 +85,8 @@ public class Order {
     @JsonIgnore
     private Customer customer;
 
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "order", orphanRemoval = true)
-    @JsonIgnore
-    private List<OrderDetail> orderDetails = new ArrayList<>();
+    // @OneToMany(fetch = FetchType.EAGER, mappedBy = "order", orphanRemoval = true)
+    // @JsonIgnore
+    // private List<OrderDetail> orderDetails = new ArrayList<>();
 
 }

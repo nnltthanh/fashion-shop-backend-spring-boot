@@ -43,7 +43,7 @@ CREATE TABLE `product_detail` (
 -- Đang đổ dữ liệu cho bảng `product_detail`
 --
 
-INSERT INTO `product_detail` (`id`, `color`, `quantity`, `size`, `unit`, `product_id`, `sold`, `image_link`, `color_image`) VALUES
+INSERT INTO `product_detail` (`id`, `color`, `quantity`, `size`, `unit`, `product_id`, `sold`, `image_links`, `color_image`) VALUES
 (1, 'Xám', 100, 'M', NULL, 6, 30, 'https://mcdn2.coolmate.me/cdn-cgi/image/format=auto/uploads/October2023/QD001.20_38.jpg', 'https://media2.coolmate.me/cdn-cgi/image/width=160,height=160,quality=80,format=auto/uploads/October2023/2-5a23_79.jpg'),
 (2, 'Xanh Navy', 50, 'L', NULL, 6, 20, 'https://mcdn2.coolmate.me/cdn-cgi/image/format=auto/uploads/October2023/QD001.9_84.jpg', 'https://media2.coolmate.me/cdn-cgi/image/width=160,height=160,quality=80,format=auto/uploads/October2023/mau-xanh-navy_38.jpg'),
 (4, 'Đen', 20, 'M', NULL, 6, 5, 'https://mcdn2.coolmate.me/cdn-cgi/image/format=auto/uploads/October2023/QD001.15_46.jpg', 'https://media2.coolmate.me/cdn-cgi/image/width=160,height=160,quality=80,format=auto/uploads/October2023/mau-xanh-navy_38.jpg'),

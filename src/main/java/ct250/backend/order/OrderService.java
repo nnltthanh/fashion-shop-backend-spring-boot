@@ -48,7 +48,7 @@ public class OrderService {
     void cancelOrder(Long orderId) {
         this.orderRepository.deleteById(orderId);
     }
-
+    
     ArrayList<OrderDetail> addOrderDetailsToOrder(Long orderId, Long[] cartDetailsIdList) {
 
         Arrays.stream(cartDetailsIdList).forEach(id -> {
@@ -73,7 +73,7 @@ public class OrderService {
     public Order updateOrder(Long orderId, Order order) {
         Order orderDB = this.findOrderById(orderId);
 
-        orderDB.setOrderDetails(order.getOrderDetails());
+        // orderDB.setOrderDetails(order.getOrderDetails());
         orderDB.setStatus(order.getStatus());
         orderDB.setCoupon(order.getCoupon());
         orderDB.setPayment(order.getPayment());
@@ -81,6 +81,6 @@ public class OrderService {
         orderDB.setTotal(order.getTotal());
 
         System.out.println("New order detail saved in DB: " + orderDB);
-        return this.orderRepository.saveAndFlush(orderDB);
+        return this.orderRepository.save(orderDB);
     }
 }
