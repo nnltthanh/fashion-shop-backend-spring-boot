@@ -1,11 +1,10 @@
 package ct250.backend.product;
 
-import java.util.ArrayList;
-
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import jakarta.transaction.Transactional;
+import java.util.ArrayList;
 
 @Service
 @Transactional
@@ -59,19 +58,21 @@ public class ProductService {
         return this.productDetailRepository.findById(id).orElse(null);
     }
 
-    public ProductDetail findProductDetailByColor(String color) {
-        return  this.productDetailRepository.findByColor(color).isPresent() ?
-                this.productDetailRepository.findByColor(color).get() : null;
+    public ArrayList<ProductDetail> findProductDetailByColor(String color) {
+        return (ArrayList<ProductDetail>) this.productDetailRepository.findByColor(color);
     }
 
-    public ProductDetail findProductDetailBySize(String size) {
-        return  this.productDetailRepository.findBySize(size).isPresent() ?
-                this.productDetailRepository.findBySize(size).get() : null;
+    public ArrayList<ProductDetail> findProductDetailByColor(Long productId, String color) {
+        Product product = this.findProductById(productId);
+        return (ArrayList<ProductDetail>) this.productDetailRepository.findByColor(color);
     }
 
-    public ProductDetail findProductDetailByColorAndSize(String color, String size) {
-        return  this.productDetailRepository.findByColorAndSize(color, size).isPresent() ?
-                this.productDetailRepository.findByColorAndSize(color, size).get() : null;
+    public ArrayList<ProductDetail> findProductDetailBySize(String size) {
+        return (ArrayList<ProductDetail>) this.productDetailRepository.findBySize(size);
+    }
+
+    public ArrayList<ProductDetail> findProductDetailByColorAndSize(String color, String size) {
+        return (ArrayList<ProductDetail>) this.productDetailRepository.findByColorAndSize(color, size);
     }
 
     @SuppressWarnings("null")
