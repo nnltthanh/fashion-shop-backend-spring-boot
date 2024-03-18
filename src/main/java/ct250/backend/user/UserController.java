@@ -77,7 +77,7 @@ public class UserController {
         return new ResponseEntity<>("A user with id=" + id + " is deleted successfully", HttpStatus.OK);
     }
 
-    @PostMapping("/login")
+    @PostMapping("/loginEmployee")
     public ResponseEntity<?> loginCustomer(@RequestBody User user) {
         User existingUser = userService.findByAccount(user.getAccount());
         if (existingUser == null) {
