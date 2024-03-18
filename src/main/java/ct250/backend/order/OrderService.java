@@ -40,6 +40,7 @@ public class OrderService {
     }
 
     @SuppressWarnings("null")
+    public
     Order findOrderById(Long id) {
         return this.orderRepository.findById(id).orElse(null);
     }
@@ -76,8 +77,12 @@ public class OrderService {
         // orderDB.setOrderDetails(order.getOrderDetails());
         orderDB.setStatus(order.getStatus());
         orderDB.setCoupon(order.getCoupon());
-        orderDB.setPayment(order.getPayment());
-        orderDB.setShipment(order.getShipment());
+        if (order.getPayment() != null) {
+            orderDB.setPayment(order.getPayment());
+        }
+        if (order.getShipment() != null) {
+            orderDB.setShipment(order.getShipment());
+        }
         orderDB.setTotal(order.getTotal());
 
         System.out.println("New order detail saved in DB: " + orderDB);

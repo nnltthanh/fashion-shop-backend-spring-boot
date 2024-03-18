@@ -34,10 +34,10 @@ public class PaymentService {
         return this.paymentRepository.findById(id).orElse(null);
     }
 
-    // @Transactional
-    // public Payment addPayment(Payment payment) {
-    //     return this.paymentRepository.save(payment);
-    // }
+    @Transactional
+    public Payment addPayment(Payment payment) {
+        return this.paymentRepository.save(payment);
+    }
 
     String getVNPayTransaction(Long orderId, Payment payment, String customerBankCode) {
  

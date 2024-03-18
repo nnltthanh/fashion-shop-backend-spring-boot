@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import ct250.backend.order.Order;
+import ct250.backend.order.OrderService;
 import jakarta.servlet.ServletException;
 
 @RestController
@@ -22,6 +24,9 @@ public class PaymentController {
 
     @Autowired
     private PaymentService paymentService;
+
+    @Autowired
+    private OrderService orderService;
 
     @GetMapping({ "/", "" })
     public ResponseEntity<?> getAllPayment() {
@@ -70,8 +75,16 @@ public class PaymentController {
 
     @PostMapping("/{orderId}/vnpay")
     public ResponseEntity<?> addPayment(@PathVariable("orderId") Long orderId, @RequestBody Payment payment) throws ServletException, IOException {
-        return new ResponseEntity<>(this.paymentService.getVNPayTransaction(orderId, payment, "NCB"),
-                    HttpStatus.OK);
+        Payment newPayment = this.paymentService.addPayment(payment);
+        String paymentUrl = this.paymentService.getVNPayTransaction(orderId, payment, "NCB");
+        newPayment.setPaymentUrl(paymentUrl);
+
+        this.paymentService.updatePayment(newPayment.getId(), newPayment);
+        Order order = this.orderService.findOrderById(orderId);
+        order.setPayment(newPayment);
+        this.orderService.updateOrder(orderId, order);
+
+        return new ResponseEntity<>(paymentUrl, HttpStatus.OK);
     }
 
 }
