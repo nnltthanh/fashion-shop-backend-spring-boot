@@ -15,5 +15,5 @@ import jakarta.persistence.EntityListeners;
 @DiscriminatorValue("customer")
 @EntityListeners(AuditingEntityListener.class)
 public class Customer extends User {
-
+    
 }
