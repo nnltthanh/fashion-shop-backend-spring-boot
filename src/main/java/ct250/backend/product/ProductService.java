@@ -4,6 +4,7 @@ import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 @Service
@@ -58,6 +59,13 @@ public class ProductService {
         return this.productDetailRepository.findById(id).orElse(null);
     }
 
+    public ArrayList<Product> findProductByTypes(ArrayList<ProductType> types) {
+        ArrayList<Product> filteredProducts = new ArrayList<Product>();
+        for (ProductType type : types) {
+            filteredProducts.addAll(this.productRepository.findProductsByType(type));
+        }
+        return filteredProducts;
+    }
     public ArrayList<ProductDetail> findProductDetailByColor(String color) {
         return (ArrayList<ProductDetail>) this.productDetailRepository.findByColor(color);
     }

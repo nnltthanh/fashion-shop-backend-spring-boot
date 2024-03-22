@@ -45,6 +45,18 @@ public class ProductController {
         this.productService.deleteProductById(id);
         return new ResponseEntity<>("Deleted successfully", HttpStatus.OK);
     }
+
+    @GetMapping("/filtered/type")
+    public ResponseEntity<?> getAllFilteredProductsByTypes(@RequestParam ArrayList<ProductType> productTypes) {
+        if (productTypes == null || productTypes.isEmpty()) {
+            return new ResponseEntity<>("Product types parameter is required", HttpStatus.BAD_REQUEST);
+        }
+        ArrayList<Product> filteredProducts = this.productService.findProductByTypes(productTypes);
+        if (filteredProducts.size() < 1) {
+            return new ResponseEntity<>("Cannot find any product in types: { " + productTypes + " }", HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(filteredProducts, HttpStatus.OK);
+    }
     
     @GetMapping(value = "/{productId}/details")
     public ArrayList<ProductDetail> getAllProductDetails(@PathVariable Long productId) {
