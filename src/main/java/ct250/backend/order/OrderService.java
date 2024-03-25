@@ -39,9 +39,12 @@ public class OrderService {
         return (ArrayList<Order>) this.orderRepository.findByCustomer_Id(customerId);
     }
 
+    ArrayList<Order> findAll() {
+        return (ArrayList<Order>) this.orderRepository.findAll();
+    }
+
     @SuppressWarnings("null")
-    public
-    Order findOrderById(Long id) {
+    public Order findOrderById(Long id) {
         return this.orderRepository.findById(id).orElse(null);
     }
 
@@ -49,7 +52,7 @@ public class OrderService {
     void cancelOrder(Long orderId) {
         this.orderRepository.deleteById(orderId);
     }
-    
+
     ArrayList<OrderDetail> addOrderDetailsToOrder(Long orderId, Long[] cartDetailsIdList) {
 
         Arrays.stream(cartDetailsIdList).forEach(id -> {
@@ -70,7 +73,7 @@ public class OrderService {
     public OrderDetail findOrderDetailById(Long id) {
         return this.orderDetailRepository.findById(id).orElse(null);
     }
- 
+
     public Order updateOrder(Long orderId, Order order) {
         Order orderDB = this.findOrderById(orderId);
 

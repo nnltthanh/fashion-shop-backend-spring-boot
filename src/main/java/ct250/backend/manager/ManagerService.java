@@ -1,4 +1,4 @@
-package ct250.backend.admin;
+package ct250.backend.manager;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -24,7 +24,6 @@ public class ManagerService {
     public void add(Manager manager) {
         this.managerRepository.save(manager);
     }
-
 
     @SuppressWarnings("null")
     public void deleteById(Long id) {

@@ -1,4 +1,4 @@
-package ct250.backend.admin;
+package ct250.backend.manager;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -14,7 +14,7 @@ public class ManagerController {
     @Autowired
     ManagerService managerService;
 
-    @GetMapping(value = {"/", ""})
+    @GetMapping(value = { "/", "" })
     public ArrayList<Manager> getAllManagers() {
         return this.managerService.findAll();
     }
@@ -33,10 +33,11 @@ public class ManagerController {
         // Check if customer exist or not?
         // Manager isExistedManager = managerService.findById(manager.getId());
         // if (isExistedManager == null) {
-        //     this.managerService.add(manager);
-        //     return new ResponseEntity<>(manager, HttpStatus.CREATED);
+        // this.managerService.add(manager);
+        // return new ResponseEntity<>(manager, HttpStatus.CREATED);
         // }
-        // return new ResponseEntity<>("The employee with id=" + manager.getId() + " existed. Try again!", HttpStatus.BAD_REQUEST);
+        // return new ResponseEntity<>("The employee with id=" + manager.getId() + "
+        // existed. Try again!", HttpStatus.BAD_REQUEST);
         this.managerService.add(manager);
         return new ResponseEntity<>(manager, HttpStatus.CREATED);
     }

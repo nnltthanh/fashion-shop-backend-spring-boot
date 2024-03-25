@@ -5,6 +5,7 @@ import org.springframework.stereotype.Component;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
+import ct250.backend.manager.Manager;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -18,7 +19,6 @@ import jakarta.persistence.TemporalType;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import ct250.backend.admin.Manager;
 
 @Component
 @Entity
@@ -53,9 +53,9 @@ public class Post {
     @Temporal(TemporalType.TIMESTAMP)
     private Date publicAt;
 
-    @ManyToOne
-    @JoinColumn(name = "admin_id")
-    private Manager admin;
+    // @ManyToOne
+    // @JoinColumn(name = "admin_id")
+    // private Manager admin;
 
     public Post(Post post) {
         this.id = post.getId();
@@ -65,7 +65,7 @@ public class Post {
         this.content = post.getContent();
         this.imagesURL = post.getImagesURL();
         this.publicAt = post.getPublicAt();
-        this.admin = post.getAdmin();
+        // this.admin = post.getAdmin();
     }
 
 }
