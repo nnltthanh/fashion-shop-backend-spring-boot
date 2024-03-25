@@ -39,7 +39,7 @@ public class PostService {
             existingPost.setContent(post.getContent());
             existingPost.setImagesURL(post.getImagesURL());
             existingPost.setPublicAt(post.getPublicAt());
-            existingPost.setAdmin(post.getAdmin());
+            // existingPost.setAdmin(post.getAdmin());
 
             this.postRepository.save(existingPost);
             return existingPost;

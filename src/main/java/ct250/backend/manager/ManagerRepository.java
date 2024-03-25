@@ -1,4 +1,4 @@
-package ct250.backend.admin;
+package ct250.backend.manager;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 

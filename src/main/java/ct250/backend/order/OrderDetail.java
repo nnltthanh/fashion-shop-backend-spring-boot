@@ -36,13 +36,13 @@ public class OrderDetail {
 
     @Column
     private int quantity;
-    
+
     @Column(precision = 10, scale = 2)
     private BigDecimal total;
 
     @ManyToOne
     @JoinColumn(name = "order_id")
-    @JsonIgnore
+    // @JsonIgnore
     private Order order;
 
     @ManyToOne
@@ -55,5 +55,5 @@ public class OrderDetail {
         this.total = cartDetail.getTotal();
         this.productDetail = cartDetail.getProductDetail();
     }
-    
+
 }

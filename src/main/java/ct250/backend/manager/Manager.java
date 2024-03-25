@@ -1,4 +1,4 @@
-package ct250.backend.admin;
+package ct250.backend.manager;
 
 import org.springframework.stereotype.Component;
 
@@ -22,7 +22,7 @@ public class Manager extends Employee {
     @JoinColumn(name = "warehouse_id", referencedColumnName = "id")
     private Warehouse warehouse;
 
-//    @Column
-//    private String nickname;
+    // @Column
+    // private String nickname;
 
 }

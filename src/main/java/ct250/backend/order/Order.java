@@ -48,15 +48,15 @@ public class Order {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column
     private Long id;
-    
+
     @Column
     @CreatedDate
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Asia/Ho_Chi_Minh")
-    private Date createDate; 
+    private Date createDate;
 
     @Column(precision = 10, scale = 2)
     private BigDecimal total;
-    
+
     @Enumerated(EnumType.STRING)
     private OrderStatus status;
 
@@ -82,7 +82,7 @@ public class Order {
 
     @ManyToOne
     @JoinColumn(name = "customer_id")
-    @JsonIgnore
+    // @JsonIgnore
     private Customer customer;
 
     // @OneToMany(fetch = FetchType.EAGER, mappedBy = "order", orphanRemoval = true)
