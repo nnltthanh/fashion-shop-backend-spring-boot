@@ -96,4 +96,15 @@ public class CartService {
         this.cartDetailRepository.deleteById(id);
     }
 
+    @SuppressWarnings("null")
+    public CartDetail updateCartDetail(CartDetail cartDetail) {
+        CartDetail cartDetailDB = this.cartDetailRepository.findById(cartDetail.getId()).get();
+        
+        cartDetailDB.setQuantity(cartDetail.getQuantity());
+        cartDetailDB.setProductDetail(cartDetail.getProductDetail());
+        cartDetailDB.setTotal(cartDetail.getTotal());
+
+        return this.cartDetailRepository.saveAndFlush(cartDetailDB);
+    }
+
 }

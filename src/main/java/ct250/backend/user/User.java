@@ -40,6 +40,15 @@ public class User {
         @Column(columnDefinition = "TEXT")
         private String address;
 
+        @Column(columnDefinition = "TEXT")
+        private String province;
+
+        @Column(columnDefinition = "TEXT")
+        private String district;
+
+        @Column(columnDefinition = "TEXT")
+        private String ward;
+
         @Column(length = 12)
         private String phone;
 

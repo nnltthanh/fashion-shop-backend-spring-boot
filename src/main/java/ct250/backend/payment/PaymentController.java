@@ -74,7 +74,7 @@ public class PaymentController {
     // }
 
     @PostMapping("/{orderId}/vnpay")
-    public ResponseEntity<?> addPayment(@PathVariable("orderId") Long orderId, @RequestBody Payment payment) throws ServletException, IOException {
+    public ResponseEntity<?> addPaymentByVNPay(@PathVariable("orderId") Long orderId, @RequestBody Payment payment) throws ServletException, IOException {
         Payment newPayment = this.paymentService.addPayment(payment);
         String paymentUrl = this.paymentService.getVNPayTransaction(orderId, payment, "NCB");
         newPayment.setPaymentUrl(paymentUrl);
@@ -85,6 +85,17 @@ public class PaymentController {
         this.orderService.updateOrder(orderId, order);
 
         return new ResponseEntity<>(paymentUrl, HttpStatus.OK);
+    }
+
+    @PostMapping("/{orderId}/cod")
+    public ResponseEntity<?> addPaymentByCOD(@PathVariable("orderId") Long orderId, @RequestBody Payment payment) throws ServletException, IOException {
+        Payment newPayment = this.paymentService.addPayment(payment);
+        
+        Order order = this.orderService.findOrderById(orderId);
+        order.setPayment(newPayment);
+        this.orderService.updateOrder(orderId, order);
+
+        return new ResponseEntity<>(newPayment, HttpStatus.OK);
     }
 
 }

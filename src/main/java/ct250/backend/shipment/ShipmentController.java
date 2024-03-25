@@ -5,12 +5,18 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import ct250.backend.order.Order;
+import ct250.backend.order.OrderService;
+
 @RestController
 @RequestMapping("/shipment")
 public class ShipmentController {
 
     @Autowired
     private ShipmentService shipmentService;
+
+    @Autowired
+    private OrderService orderService;
 
     @GetMapping({ "/", "" })
     public ResponseEntity<?> getAllShipment() {
@@ -46,14 +52,22 @@ public class ShipmentController {
                 HttpStatus.BAD_REQUEST);
     }
 
-    @PostMapping("/")
-    public ResponseEntity<?> addShipment(@RequestBody Shipment shipment) {
-        Shipment isExistedShipment = this.shipmentService.findShipmentById(shipment.getId());
-        if (isExistedShipment == null) {
-            this.shipmentService.addShipment(shipment);
-            return new ResponseEntity<>(shipment, HttpStatus.CREATED);
-        }
-        return new ResponseEntity<>("The shipment with id=" + shipment.getId() + " existed. Try again!",
-                HttpStatus.BAD_REQUEST);
+    @PostMapping("/{orderId}")
+    public ResponseEntity<?> addShipment(@PathVariable Long orderId, @RequestBody Shipment shipment) {
+        // Shipment isExistedShipment =
+        // this.shipmentService.findShipmentById(shipment.getId());
+        // if (isExistedShipment == null) {
+        // this.shipmentService.addShipment(shipment);
+        // return new ResponseEntity<>(shipment, HttpStatus.CREATED);
+        // }
+        // return new ResponseEntity<>("The shipment with id=" + shipment.getId() + "
+        // existed. Try again!",
+        // HttpStatus.BAD_REQUEST);
+        Shipment newShipment = this.shipmentService.addShipment(shipment);
+
+        Order order = this.orderService.findOrderById(orderId);
+        order.setShipment(newShipment);
+        this.orderService.updateOrder(orderId, order);
+        return new ResponseEntity<>(shipment, HttpStatus.CREATED);
     }
 }

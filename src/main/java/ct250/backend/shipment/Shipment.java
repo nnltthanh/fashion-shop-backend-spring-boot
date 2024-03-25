@@ -1,5 +1,6 @@
 package ct250.backend.shipment;
 
+import java.math.BigDecimal;
 import java.util.Date;
 
 import org.hibernate.annotations.UpdateTimestamp;
@@ -40,5 +41,8 @@ public class Shipment {
 
     @Column(name = "method", length = 100)
     private String method;
+
+    @Column(precision = 10, scale = 2)
+    private BigDecimal shipCost;
 
 }
